@@ -73,7 +73,7 @@
 用数据说话，**关键指标必须通过工具精确计算**：
 
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
+python3 tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -149,7 +149,7 @@ python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
 
 追加检验（**必须通过工具精确计算，禁止心算**）：
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
+python3 tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {股本亿} \
   --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE} --currency {币种}
 ```
@@ -224,7 +224,7 @@ python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
 - ❓ **灰色地带** — 说明关键争议点是什么，投资者需要自行判断什么
 - N/A — 未上市/无法买入
 
-将完整报告写入 `~/巴菲特Checklist-[公司名或"多公司对比"].md`
+将完整报告写入 `reports/巴菲特Checklist-[公司名或"多公司对比"].md`
 
 ## 输出格式要求
 
