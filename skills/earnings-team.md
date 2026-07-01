@@ -407,18 +407,14 @@
 
 ---
 
-## 输出文件
+## 预览与归档
 
-```
-reports/{公司名}/
-├── {公司名}-earnings-{期间}.md           ← 最终公众号文章（定稿）
-├── {公司名}-earnings-{期间}-研究底稿.md   ← 四大师合成研究报告（自用）
-├── {公司名}-earnings-{期间}-段永平.md     ← 生意本质解读
-├── {公司名}-earnings-{期间}-巴菲特.md     ← 财务质量审计
-├── {公司名}-earnings-{期间}-芒格.md       ← 竞争格局解读
-├── {公司名}-earnings-{期间}-李录.md       ← 风险信号分析
-└── {公司名}-earnings-{期间}-读者评审.md   ← 读者评审报告
-```
+不要直接写本地文件。将以下产物正文交给 Hermes preview skill，由 preview 负责生成预览、归档和后续发布材料：
+
+- 最终公众号文章（定稿）
+- 四大师合成研究底稿
+- 段永平/巴菲特/芒格/李录四个视角分析
+- 读者评审报告
 
 ## 数据抽检（准出流程）
 
@@ -426,7 +422,7 @@ reports/{公司名}/
 
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report reports/{公司名}/{公司名}-earnings-{期间}.md
+  --report <preview导出的最终文章文件路径>
 
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \

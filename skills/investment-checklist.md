@@ -216,7 +216,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ---
 
-### 第七步：最终结论与写入文件
+### 第七步：最终结论与预览归档
 
 对每家公司给出明确结论（不回避）：
 - ✅ **通过 Checklist**（X/6关）— 可以进入深度研究阶段
@@ -224,7 +224,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 - ❓ **灰色地带** — 说明关键争议点是什么，投资者需要自行判断什么
 - N/A — 未上市/无法买入
 
-将完整报告写入 `reports/巴菲特Checklist-[公司名或"多公司对比"].md`
+输出完整 Checklist 报告正文，并交给 Hermes preview skill，由 preview 负责生成预览、归档和后续发布材料。不要直接写本地文件。
 
 ## 输出格式要求
 

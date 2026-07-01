@@ -186,18 +186,18 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verif
 3. **需要关注的下一个催化剂是什么？**
 4. **如果你已持有，该加仓/持有/减仓？**
 
-### 第七步：保存报告
+### 第七步：预览与归档
 
-将报告写入 `reports/{公司名}-earnings-{期间}.md`，例如 `reports/腾讯-earnings-2025Q4.md`
+不要直接写本地文件。将完整报告正文交给 Hermes preview skill，由 preview 负责生成预览、归档和后续发布材料。
 
 ### 第八步：数据抽检（准出流程）
 
-报告写入后，执行数据抽检，通过方可发布：
+报告经 Hermes preview skill 生成预览和归档后，执行数据抽检，通过方可发布：
 
 ```bash
 # Step 1 — 提取抽检清单
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report reports/{公司名}-earnings-{期间}.md
+  --report <preview导出的报告文件路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
