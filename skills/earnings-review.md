@@ -192,7 +192,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verif
 
 ### 第八步：数据抽检（准出流程）
 
-交给 preview skill 处理。
+先将完整报告正文保存为本地临时 `.md` 文件（本地临时稿），再对这份本地临时稿运行 `report_audit.py extract` 和 `report_audit.py verdict`；不要用 preview/gist 导出的文件。
 
 ## 关键原则
 
