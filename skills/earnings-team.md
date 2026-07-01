@@ -409,7 +409,7 @@
 
 ## 预览与归档
 
-不要直接写本地文件。将以下产物正文交给 preview skill 处理：
+不要直接写本地文件。将最终公众号文章正文交给 preview skill 处理。
 
 - 最终公众号文章（定稿）
 - 四大师合成研究底稿
@@ -422,11 +422,11 @@
 
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <preview导出的最终文章文件路径>
+  --report <临时最终文章文件路径>
 
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report {报告文件名}
+  --report <临时报告文件路径>
 ```
 
 **【准出】** 全部通过 → 可发布；**【打回】** 有不通过 → 修正后重审。

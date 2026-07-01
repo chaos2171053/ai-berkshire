@@ -248,25 +248,25 @@
 3. 产业链全景图用代码块的文本图表示
 4. 每个环节至少分析2-3家头部公司
 5. 全球公司扫描要尽可能完整（A股/港股/美股/国际）
-6. 最终输出完整报告正文，并交给 preview skill 处理
+6. 最终输出完整报告正文，并交给 preview skill 处理。
 7. 结论要明确，给出具体的标的、仓位和价格区间建议
 8. 每个分析模块末尾有对应大师的"追问"
 
 ## 数据抽检（准出流程）
 
-报告经 preview skill 处理后，执行数据抽检，通过方可发布：
+交给 preview skill 前，用临时报告文件执行数据抽检，通过方可发布：
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <报告文件路径>
+  --report <临时报告文件路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <报告文件名>
+  --report <临时报告文件路径>
 ```
 
 **【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
