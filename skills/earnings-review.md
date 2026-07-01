@@ -188,11 +188,11 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verif
 
 ### 第七步：预览与归档
 
-不要直接写本地文件。将完整报告正文交给 Hermes preview skill，由 preview 负责生成预览、归档和后续发布材料。
+不要直接写本地文件。将完整报告正文交给 preview skill 处理。
 
 ### 第八步：数据抽检（准出流程）
 
-报告经 Hermes preview skill 生成预览和归档后，执行数据抽检，通过方可发布：
+报告经 preview skill 处理后，执行数据抽检，通过方可发布：
 
 ```bash
 # Step 1 — 提取抽检清单
