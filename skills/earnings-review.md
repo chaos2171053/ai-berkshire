@@ -188,26 +188,11 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verif
 
 ### 第七步：预览与归档
 
-不要直接写本地文件。将完整报告正文交给 preview skill 处理。
+不要直接写本地文件。按 `skills/_finalize-report.md` 处理。
 
 ### 第八步：数据抽检（准出流程）
 
-交给 preview skill 前，用临时报告文件执行数据抽检，通过方可发布：
-
-```bash
-# Step 1 — 提取抽检清单
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <临时报告文件路径>
-
-# Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
-
-# Step 3 — 输出准出/打回判决
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
-  --results '<填好的JSON>' \
-  --report <临时报告文件路径>
-```
-
-**【准出】** 全部通过 → 发布；**【打回】** 有不通过 → 修正后重审。
+按 `skills/_finalize-report.md` 处理。
 
 ## 关键原则
 

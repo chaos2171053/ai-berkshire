@@ -243,7 +243,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 1. 所有分析必须有数据支撑，附数据来源
 2. 使用 Markdown 表格呈现关键数据
 3. 每个模块末尾必须有对应大师的"追问"
-4. 最终输出完整报告正文，并交给 preview skill 处理。
+4. 最终输出完整报告正文，并按 `skills/_finalize-report.md` 处理。
 5. 结论要明确，不回避给出买入/观望/回避的建议
 6. 估值部分必须给出具体的价格区间
 7. **报告开头**必须包含"信息丰富度评级"（A/B/C）和"AI研究局限性声明"
@@ -252,26 +252,4 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ## 数据抽检（准出流程）
 
-交给 preview skill 前，**必须**用临时报告文件执行数据抽检，通过后方可发布：
-
-**Step 1 — 提取抽检清单（15%随机抽样）：**
-```bash
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <临时报告文件路径>
-```
-输出 JSON 模板，每项含 `fetched_value`（待填）。
-
-**Step 2 — 取数核验：**
-对清单中每个数据点，按 `skills/financial-data.md` 规范从可靠信源取数
-（美股：macrotrends+stockanalysis；港股：aastocks+macrotrends；A股：东方财富+巨潮资讯），
-填入 `fetched_value` / `fetched_source` / `fetched_value2` / `fetched_source2`。
-
-**Step 3 — 输出判决：**
-```bash
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
-  --results '<填好的JSON>' \
-  --report <临时报告文件路径>
-```
-
-- **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
-- **【打回】**：任意点偏差 > 1% → 修正对应数据后重新抽检，直到准出
+按 `skills/_finalize-report.md` 处理。
