@@ -77,7 +77,7 @@
 
 #### 数据交叉验证（必须执行，使用金融严谨性工具）
 
-数据收集完成后，**必须调用 `tools/financial_rigor.py` 对关键数据进行程序化验证**，杜绝LLM心算误差。
+数据收集完成后，**必须调用 `~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py` 对关键数据进行程序化验证**，杜绝LLM心算误差。
 
 **必须验证的数据点**：
 - 总股本（从交易所、Yahoo Finance、StockAnalysis 等至少2个源确认）
@@ -90,20 +90,20 @@
 
 Step 1 — 市值验算（精确十进制，非浮点）：
 ```bash
-python3 tools/financial_rigor.py verify-market-cap \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
   --price {股价} --shares {总股本} --reported {报告市值} --currency {币种}
 ```
 
 Step 2 — 关键数据多源交叉验证：
 ```bash
-python3 tools/financial_rigor.py cross-validate \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
   --field {字段名} --values '{"来源1": 数值, "来源2": 数值}' --unit {单位}
 ```
 对收入、净利润、现金储备分别执行。
 
 Step 3 — 估值指标精确验算（PE/PB/ROE/FCF Yield 等）：
 ```bash
-python3 tools/financial_rigor.py verify-valuation \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -212,7 +212,7 @@ python3 tools/financial_rigor.py verify-valuation \
 - 反向DCF：当前股价隐含了什么增长预期？
 - 三情景估值 —— **必须通过工具精确计算，禁止心算**：
 ```bash
-python3 tools/financial_rigor.py three-scenario \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {总股本亿} \
   --growth {乐观增速} {中性增速} {悲观增速} \
   --pe {乐观PE} {中性PE} {悲观PE} --years 3 --currency {币种}
@@ -264,7 +264,7 @@ python3 tools/financial_rigor.py three-scenario \
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
-python3 tools/report_audit.py extract \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
   --report <报告文件路径>
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
@@ -276,7 +276,7 @@ python3 tools/report_audit.py extract \
 
 **Step 3 — 输出判决：**
 ```bash
-python3 tools/report_audit.py verdict \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <报告文件名>
 ```
