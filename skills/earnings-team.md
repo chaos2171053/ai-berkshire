@@ -409,7 +409,7 @@
 
 ## 预览与归档
 
-不要直接写本地文件。按 `skills/_finalize-report.md` 处理。
+不要直接写本地文件。将最终公众号文章正文交给 preview skill 处理。
 
 - 最终公众号文章（定稿）
 - 四大师合成研究底稿
@@ -418,7 +418,7 @@
 
 ## 数据抽检（准出流程）
 
-按 `skills/_finalize-report.md` 处理。
+交给 preview skill 处理。
 
 ## 与现有 Skill 的关系
 

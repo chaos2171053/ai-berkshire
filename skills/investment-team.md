@@ -187,11 +187,11 @@
 
 ### 第八步：预览与归档
 
-不要直接写本地文件。按 `skills/_finalize-report.md` 处理。
+不要直接写本地文件。将完整最终报告正文交给 preview skill 处理。
 
 ### 第九步：数据抽检（准出流程）
 
-按 `skills/_finalize-report.md` 处理。
+交给 preview skill 处理。
 
 ## 重要注意事项
 

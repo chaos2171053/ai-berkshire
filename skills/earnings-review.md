@@ -188,11 +188,11 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verif
 
 ### 第七步：预览与归档
 
-不要直接写本地文件。按 `skills/_finalize-report.md` 处理。
+不要直接写本地文件。将完整报告正文交给 preview skill 处理。
 
 ### 第八步：数据抽检（准出流程）
 
-按 `skills/_finalize-report.md` 处理。
+交给 preview skill 处理。
 
 ## 关键原则
 

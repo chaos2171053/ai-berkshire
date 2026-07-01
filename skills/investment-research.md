@@ -243,7 +243,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 1. 所有分析必须有数据支撑，附数据来源
 2. 使用 Markdown 表格呈现关键数据
 3. 每个模块末尾必须有对应大师的"追问"
-4. 最终输出完整报告正文，并按 `skills/_finalize-report.md` 处理。
+4. 最终输出完整报告正文，并交给 preview skill 处理。
 5. 结论要明确，不回避给出买入/观望/回避的建议
 6. 估值部分必须给出具体的价格区间
 7. **报告开头**必须包含"信息丰富度评级"（A/B/C）和"AI研究局限性声明"
@@ -252,4 +252,4 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ## 数据抽检（准出流程）
 
-按 `skills/_finalize-report.md` 处理。
+交给 preview skill 处理。
