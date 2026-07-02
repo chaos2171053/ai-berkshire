@@ -174,23 +174,23 @@
 
 ### 第八步：最终输出
 
-不要写入仓库内长期本地文件。完整最终报告正文先保存到 `/tmp/ai-berkshire/{报告相对路径}.md`，文件名沿用原报告命名；先执行数据抽检，准出后交给 preview skill 处理。
+不要写入仓库内长期本地文件。完整最终报告正文先保存到 `/tmp/ai-berkshire/{公司名}投资研究报告_{日期}.md`，文件名沿用上游 `~/{公司名}投资研究报告_{日期}.md`，只改为临时目录；先执行数据抽检，准出后交给 preview skill 处理。
 
 ### 第九步：数据抽检（准出流程）
 
-抽检前将完整最终报告正文保存到 `/tmp/ai-berkshire/{报告相对路径}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
+抽检前将完整最终报告正文保存到 `/tmp/ai-berkshire/{公司名}投资研究报告_{日期}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
 python3 tools/report_audit.py extract \
-  --report <上一步保存的 /tmp/ai-berkshire/{报告相对路径}.md 路径>
+  --report <上一步保存的 /tmp/ai-berkshire/{公司名}投资研究报告_{日期}.md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
 python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <上一步保存的 /tmp/ai-berkshire/{报告相对路径}.md 路径>
+  --report <上一步保存的 /tmp/ai-berkshire/{公司名}投资研究报告_{日期}.md 路径>
 ```
 
 **【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
