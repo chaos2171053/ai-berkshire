@@ -252,12 +252,12 @@ python3 tools/financial_rigor.py three-scenario \
 
 ## 数据抽检（准出流程）
 
-抽检前将完整报告正文保存到 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
+抽检前将完整报告正文保存到 `/tmp/ai-berkshire/{报告相对路径}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
 python3 tools/report_audit.py extract \
-  --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
+  --report <上一步保存的 /tmp/ai-berkshire/{报告相对路径}.md 路径>
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
 
@@ -270,7 +270,7 @@ python3 tools/report_audit.py extract \
 ```bash
 python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
+  --report <上一步保存的 /tmp/ai-berkshire/{报告相对路径}.md 路径>
 ```
 
 - **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
