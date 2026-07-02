@@ -407,30 +407,36 @@
 
 ---
 
-## 最终输出
+## 输出文件
 
-不要写入仓库内长期本地文件。最终公众号文章正文先执行数据抽检；准出后交给 preview skill 处理。
+```
+reports/{公司名}/
+├── {公司名}-earnings-{期间}.md           ← 最终公众号文章（定稿）
+├── {公司名}-earnings-{期间}-研究底稿.md   ← 四大师合成研究报告（自用）
+├── {公司名}-earnings-{期间}-段永平.md     ← 生意本质解读
+├── {公司名}-earnings-{期间}-巴菲特.md     ← 财务质量审计
+├── {公司名}-earnings-{期间}-芒格.md       ← 竞争格局解读
+├── {公司名}-earnings-{期间}-李录.md       ← 风险信号分析
+└── {公司名}-earnings-{期间}-读者评审.md   ← 读者评审报告
+```
 
-- 最终公众号文章（定稿）
-- 四大师合成研究报告（自用）
-- 段永平/巴菲特/芒格/李录四个视角分析
-- 读者评审报告
+仅 `{公司名}-earnings-{期间}.md` 进入数据抽检和发布流程；其余文件用于研究、合成和评审。如还需继续修订，保留 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/earnings-team/`；发布流程结束后删除该临时目录。
 
 ## 数据抽检（准出流程）
 
-对最终文章执行抽检。抽检前将完整公众号文章正文保存到 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将文章正文交给 preview skill；preview 完成后删除该文件。
+对最终文章执行抽检。抽检前将完整公众号文章正文按上方最终文章文件名保存到 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/earnings-team/{公司名}-earnings-{期间}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
 python3 tools/report_audit.py extract \
-  --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
+  --report /tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/earnings-team/{公司名}-earnings-{期间}.md
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
 python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
+  --report /tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/earnings-team/{公司名}-earnings-{期间}.md
 ```
 
 **【准出】** 全部通过 → 可发布；**【打回】** 有不通过 → 修正后重审。

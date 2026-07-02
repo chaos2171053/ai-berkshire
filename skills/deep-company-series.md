@@ -106,9 +106,9 @@
 
 ### 阶段 2：写作（按 01→08 顺序写，不跳）
 
-- 每篇写完先存到本次运行目录：`/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/0X-XX.md`
-- 每篇准出后交给 preview skill，作为用户在飞书/Hermes 对话里的审核入口
-- 如用户提出修订意见，读取对应草稿并结合意见修改，再次 preview；如无反馈，可继续下一篇或后续阶段
+- 每篇写完先将文章正文存到本次运行目录：`/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/0X-XX.md`
+- 每篇完成事实核查和必要修订后，再交给 preview skill，作为用户查看入口
+- 如用户提出修订意见，读取对应文章正文并结合意见修改；需要用户再次查看时再重新 preview。如无反馈，可继续下一篇或后续阶段
 - 不写入 skill 仓库，不执行 git commit/push
 
 ### 阶段 3：跨篇一致性扫描（08 篇全部写完后）
@@ -126,7 +126,7 @@
 grep -r "linxuan\|/Users/\|<用户公司花名>" /tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/ | head
 ```
 
-确认无明显问题后，将正文交给 preview skill；如用户后续提出修改意见，再读取草稿继续修订。
+确认无明显问题后，将正文交给 preview skill；如用户后续提出修改意见，再读取对应文章正文继续修订。需要继续修订时保留 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/`；系列发布流程结束后删除该临时目录。
 
 ---
 
@@ -160,7 +160,7 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" /tmp/ai-berkshire/{slug}/{YYYYM
 ### 4. 修订后立即报告
 
 ```
-修订完成，已重新生成 preview。
+修订完成。如需用户查看，重新生成 preview 并附入口。
 [N] 处修订总结 [带表]：
 - 改了什么
 - 联动改了什么
