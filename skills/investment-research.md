@@ -252,12 +252,12 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ## 数据抽检（准出流程）
 
-抽检前将完整报告正文保存到 `/tmp/ai-berkshire/reports/{公司名}/{公司名}-investment-research-{YYYYMMDD}.md`，再执行抽检。
+抽检前将完整报告正文保存到 `/tmp/ai-berkshire/reports/{公司名}/investment-research-{YYYYMMDD}.md`，再执行抽检。
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report /tmp/ai-berkshire/reports/{公司名}/{公司名}-investment-research-{YYYYMMDD}.md
+  --report /tmp/ai-berkshire/reports/{公司名}/investment-research-{YYYYMMDD}.md
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
 
@@ -270,7 +270,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract 
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report /tmp/ai-berkshire/reports/{公司名}/{公司名}-investment-research-{YYYYMMDD}.md
+  --report /tmp/ai-berkshire/reports/{公司名}/investment-research-{YYYYMMDD}.md
 ```
 
 - **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
