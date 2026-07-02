@@ -258,13 +258,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 tools/report_audit.py extract \
+python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
   --report <上一步保存的报告文件路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 tools/report_audit.py verdict \
+python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的报告文件路径>
 ```
