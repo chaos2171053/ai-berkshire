@@ -216,7 +216,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ---
 
-### 第七步：最终结论与预览归档
+### 第七步：最终结论与准出
 
 对每家公司给出明确结论（不回避）：
 - ✅ **通过 Checklist**（X/6关）— 可以进入深度研究阶段
@@ -224,7 +224,26 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 - ❓ **灰色地带** — 说明关键争议点是什么，投资者需要自行判断什么
 - N/A — 未上市/无法买入
 
-输出完整 Checklist 报告正文，并交给 preview skill 处理。不要写入长期本地文件。
+输出完整 Checklist 报告正文。不要写入仓库内长期本地文件；先执行数据抽检，准出后交给 preview skill 处理。
+
+### 第八步：数据抽检（准出流程）
+
+抽检前将完整 Checklist 报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
+
+```bash
+# Step 1 — 提取抽检清单（15%随机抽样）
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
+
+# Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
+
+# Step 3 — 输出准出/打回判决
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+  --results '<填好的JSON>' \
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
+```
+
+**【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
 
 ## 输出格式要求
 

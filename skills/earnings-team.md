@@ -407,9 +407,9 @@
 
 ---
 
-## 预览与归档
+## 最终输出
 
-不要直接写本地文件。将最终公众号文章正文交给 preview skill 处理。
+不要写入仓库内长期本地文件。最终公众号文章正文先执行数据抽检；准出后交给 preview skill 处理。
 
 - 最终公众号文章（定稿）
 - 四大师合成研究报告（自用）
@@ -418,19 +418,19 @@
 
 ## 数据抽检（准出流程）
 
-对最终文章执行抽检。抽检前将完整公众号文章正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 使用该路径。准出后将文章正文交给 preview skill；preview 完成后删除该文件。
+对最终文章执行抽检。抽检前将完整公众号文章正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将文章正文交给 preview skill；preview 完成后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <本地临时文章文件路径>
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <本地临时文章文件路径>
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```
 
 **【准出】** 全部通过 → 可发布；**【打回】** 有不通过 → 修正后重审。

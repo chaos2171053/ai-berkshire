@@ -243,7 +243,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 1. 所有分析必须有数据支撑，附数据来源
 2. 使用 Markdown 表格呈现关键数据
 3. 每个模块末尾必须有对应大师的"追问"
-4. 最终输出完整报告正文，并交给 preview skill 处理。
+4. 最终输出完整报告正文，先执行数据抽检；准出后交给 preview skill 处理。
 5. 结论要明确，不回避给出买入/观望/回避的建议
 6. 估值部分必须给出具体的价格区间
 7. **报告开头**必须包含"信息丰富度评级"（A/B/C）和"AI研究局限性声明"
@@ -252,12 +252,12 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ## 数据抽检（准出流程）
 
-抽检前将完整报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 使用该路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
+抽检前将完整报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report <本地临时报告文件路径>
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
 
@@ -270,7 +270,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract 
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <本地临时报告文件路径>
+  --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```
 
 - **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
