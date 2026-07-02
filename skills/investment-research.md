@@ -2,13 +2,6 @@
 
 对 $ARGUMENTS 进行系统化投资研究分析。
 
-## 执行约束
-
-- 所有步骤在主会话中顺序执行。
-- 不启动后台进程，不拆分子任务，不使用 `delegate_task`。
-- Python 工具用前台命令执行；命令结束后再进入下一步。
-- 数据收集可以分多次查询，但每次查询结果要先整理成要点，再继续后续步骤。
-
 ## 研究框架
 
 基于巴菲特、芒格、段永平、李录四位投资大师的方法论，按以下七个模块顺序执行研究：
@@ -47,7 +40,7 @@
 > - "近5年"= 从最近完整财年往回推5年（如最近财年2025，则取2021-2025）
 > - 股价/市值 = 最近一个交易日收盘价，必须标注具体日期
 > - **搜索query中必须包含当前年份**（如搜 "Microsoft revenue 2026"、"腾讯 2025年报"，而非不带年份的泛搜索）
-> - 每次数据收集都必须包含：`研究日期：{当前日期}。所有数据必须是截至此日期的最新可得数据。`
+> - 每个数据收集Agent的prompt中必须包含：`研究日期：{当前日期}。所有数据必须是截至此日期的最新可得数据。`
 
 > **数据源规范**：参见 `skills/financial-data.md`。所有财务数据必须来自两个独立来源，误差>1%须标记。
 > - 美股：macrotrends（主）+ stockanalysis（副）
@@ -252,13 +245,27 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 
 ## 数据抽检（准出流程）
 
-先将完整报告正文保存为本地临时 `.md` 文件（本地临时稿）；`report_audit.py --report` 只接受本地文件路径，不要使用 preview/gist 导出的文件。
+交给 preview skill 前，先将完整报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md` 这样的本地临时 `.md` 文件（本地临时稿）。`report_audit.py --report` 只接受这个本地文件路径，不要使用 preview/gist 导出的文件。预览和抽检完成后可删除。
 
+**Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
   --report <本地临时报告文件路径>
+```
+输出 JSON 模板，每项含 `fetched_value`（待填）。
 
+**Step 2 — 取数核验：**
+对清单中每个数据点，按 `skills/financial-data.md` 规范从可靠信源取数
+（美股：macrotrends+stockanalysis；港股：aastocks+macrotrends；A股：东方财富+巨潮资讯），
+填入 `fetched_value` / `fetched_source` / `fetched_value2` / `fetched_source2`。
+
+**Step 3 — 输出判决：**
+```bash
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <本地临时报告文件路径>
 ```
+
+
+- **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
+- **【打回】**：任意点偏差 > 1% → 修正对应数据后重新抽检，直到准出

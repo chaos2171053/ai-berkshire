@@ -224,7 +224,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three
 - ❓ **灰色地带** — 说明关键争议点是什么，投资者需要自行判断什么
 - N/A — 未上市/无法买入
 
-输出完整 Checklist 报告正文，并交给 preview skill 处理。抽检时只读本地临时稿，不读 preview/gist 导出的文件。
+输出完整 Checklist 报告正文，并交给 preview skill 处理。不要写入长期本地文件。
 
 ## 输出格式要求
 
