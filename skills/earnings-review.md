@@ -79,19 +79,19 @@
 - 存货周转天数变化（是否在积压？）
 - 商誉及无形资产占比（是否有减值风险？）
 
-**数据验证**：使用 `/home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py` 对关键数据进行校验：
+**数据验证**：使用 `~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py` 对关键数据进行校验：
 
 ```bash
 # 收入和净利润交叉验证（至少2个来源）
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
   --metric "revenue" --values 108.3e9 107.9e9 --sources "公司财报" "Yahoo Finance"
 
 # 市值校验
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
   --price 101 --shares 1.488e9 --reported 1.44e11 --currency USD
 
 # 估值指标验算
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
   --price 101 --eps 9.6 --bvps 26.5 --fcf-per-share 10.2
 ```
 
@@ -201,13 +201,13 @@ python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/fina
 
 ```bash
 # Step 1 — 提取抽检清单
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire/reports/{公司名}-earnings-{期间}.md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire/reports/{公司名}-earnings-{期间}.md 路径>
 ```

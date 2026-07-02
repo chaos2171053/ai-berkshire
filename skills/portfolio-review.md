@@ -46,7 +46,7 @@
 3. 近期重大事件
 4. 分析师一致预期（前瞻PE、目标价）
 
-对每个持仓使用 `/home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation` 校验估值数据。对每只持仓标注信息丰富度（A/B/C级），C级持仓的分析结论标注低置信度。
+对每个持仓使用 `~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation` 校验估值数据。对每只持仓标注信息丰富度（A/B/C级），C级持仓的分析结论标注低置信度。
 
 ### 第三步：单仓位体检
 
@@ -107,7 +107,7 @@
 | 2 | | | | | |
 | ... | | | | | |
 
-预期回报估算方法（使用 `/home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario` 计算）：
+预期回报估算方法（使用 `~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario` 计算）：
 - **简化公式**：预期年化 ≈ FCF Yield + 预期增速（主要方法）
 - **价值型验证**：安全边际回归 + 利润增速 + 股息率
 - **成长型验证**：利润增速 × 合理PE的变化

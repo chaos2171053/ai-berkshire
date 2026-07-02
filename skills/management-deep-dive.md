@@ -132,7 +132,7 @@ AI无法和管理层吃饭，但可以通过公开信息做到：
 
 **回购记录**：
 
-使用 `/home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation` 校验回购时和当前的PE等估值指标。
+使用 `~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation` 校验回购时和当前的PE等估值指标。
 
 | 时间 | 回购金额 | 平均回购价 | 当时PE | 事后回看 | 评分(1-5) |
 |------|---------|-----------|:------:|---------|:---------:|

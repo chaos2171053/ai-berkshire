@@ -1048,13 +1048,13 @@ Top 3 核心风险及应对策略
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire/reports/{公司名}/{公司名}-private-{YYYYMMDD}.md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 /home/chaos/projects/chaos/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire/reports/{公司名}/{公司名}-private-{YYYYMMDD}.md 路径>
 ```
