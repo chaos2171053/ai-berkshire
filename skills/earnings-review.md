@@ -193,7 +193,7 @@ python3 tools/financial_rigor.py verify-valuation \
 
 ### 第七步：最终输出
 
-不要写入仓库内长期本地文件。完整报告正文先保存到临时文件 `/tmp/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md`，目录和文件名镜像 `reports/{公司名}/{公司名}-earnings-{期间}.md`，先执行数据抽检；准出后交给 preview skill 处理。
+不要写入仓库内长期本地文件。完整报告正文先保存到临时文件 `/tmp/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md`，先执行数据抽检；准出后交给 preview skill 处理。
 
 ### 第八步：数据抽检（准出流程）
 

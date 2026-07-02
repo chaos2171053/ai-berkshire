@@ -1044,7 +1044,7 @@ Top 3 核心风险及应对策略
 
 ### 第八步：数据抽检（准出流程）
 
-抽检前将完整最终报告正文保存到 `/tmp/ai-berkshire/reports/{公司名}/{公司名}-private-{YYYYMMDD}.md`，目录和文件名镜像 `reports/{公司名}/{公司名}-private-{YYYYMMDD}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
+抽检前将完整最终报告正文保存到 `/tmp/ai-berkshire/reports/{公司名}/{公司名}-private-{YYYYMMDD}.md`；`report_audit.py --report` 只接受该本地临时路径，不使用 preview/gist 导出路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
