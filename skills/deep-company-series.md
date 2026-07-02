@@ -106,10 +106,10 @@
 
 ### 阶段 2：写作（按 01→08 顺序写，不跳）
 
-- 每篇写完先存 `reports/{公司名}/《看懂{公司名}》/0X-XX.md`
-- 不立即推 GitHub——等用户审阅
-- 用户提修订意见后修改
-- 修订完才 git push
+- 每篇写完先存到运行时草稿目录：`${AI_BERKSHIRE_RUN_DIR}/series/0X-XX.md`（默认可用 `/tmp/ai-berkshire/{slug}-{YYYYMMDD-HHMMSS}`）
+- 每篇准出后交给 preview skill，作为用户在飞书/Hermes 对话里的审核入口
+- 如用户提出修订意见，读取对应草稿并结合意见修改，再次 preview；如无反馈，可继续下一篇或后续阶段
+- 不写入 skill 仓库，不执行 git commit/push
 
 ### 阶段 3：跨篇一致性扫描（08 篇全部写完后）
 
@@ -122,11 +122,11 @@
 ### 阶段 4：发布前最终核查
 
 ```bash
-# 推送前必须本地 grep 一次（按 ai-berkshire 隐私规则）
-grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
+# 发布前必须本地 grep 一次（按 ai-berkshire 隐私规则）
+grep -r "linxuan\|/Users/\|<用户公司花名>" "${AI_BERKSHIRE_RUN_DIR}/series/" | head
 ```
 
-确认无误后才 `git pull --rebase && git commit && git push`。
+确认无明显问题后，将正文交给 preview skill；如用户后续提出修改意见，再读取草稿继续修订。
 
 ---
 
@@ -157,10 +157,10 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 - 改了持股 % → 改 TOP 10 排序 + 历史持股表 + 减持清单
 - 改了术语口径 → 改首次定义 + 后续引用 + 要点回顾
 
-### 4. 推送后立即报告
+### 4. 修订后立即报告
 
 ```
-推送成功（commit hash）。
+修订完成，已重新生成 preview。
 [N] 处修订总结 [带表]：
 - 改了什么
 - 联动改了什么
@@ -185,7 +185,7 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 
 - 所有公开报告**只用公开信息**（财报、官方披露、券商研报、知名第三方机构）
 - 不用任何**用户个人信息**（公司花名、内部 IM、未公开持仓信息）
-- 推送前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
+- 发布/预览前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
 - 公开署名按用户多层身份策略，不混用
 
 ---
