@@ -41,7 +41,7 @@
 
 使用 WebSearch 获取当前股价、估值指标（PE/PB/股息率）、最新财报核心数据，用于填写估值锚点。如果已有该公司的 `/investment-research` 或 `/investment-team` 报告，优先从中读取。
 
-使用 `tools/financial_rigor.py verify-valuation` 校验估值数据。
+使用 `${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation` 校验估值数据。
 
 ### A1：核心论文（必须用200字以内写清楚）
 

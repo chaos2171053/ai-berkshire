@@ -54,7 +54,7 @@
 
 ### 第三步：按顺序完成4个研究视角
 
-不要启动后台 Agent。按段永平 → 巴菲特 → 芒格 → 李录的顺序逐段完成；每段保留完整分析和3-5条核心发现，再进入下一段。
+不要启动后台 Agent。按段永平 → 巴菲特 → 芒格 → 李录的顺序逐段完成。
 
 ---
 
@@ -108,7 +108,7 @@
    - 关键数据至少两个来源交叉验证
 
    ```bash
-   python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
+   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py cross-validate \
      --metric "revenue" --values {值1} {值2} --sources "来源1" "来源2"
    ```
 
@@ -133,11 +133,11 @@
 5. **估值与安全边际更新**
 
    ```bash
-   python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-market-cap \
      --price {价格} --shares {股本} --reported {报告市值} --currency {币种}
-   python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
+   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation \
      --price {价格} --eps {EPS} --bvps {每股净资产}
-   python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario \
+   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario \
      --price {价格} --eps {EPS} --shares {股本亿} \
      --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}
    ```
@@ -233,7 +233,7 @@
 阶段三·发布            ⏸ 等待中
 ```
 
-每完成一个视角，更新进度并展示核心发现（3-5条）。
+四个视角全部完成后，再进入合成。
 
 ---
 
@@ -422,13 +422,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```

@@ -85,7 +85,7 @@
 
 ## 第三步：全球上市公司扫描
 
-在主会话中顺序搜索该行业所有上市公司，不启动后台 Agent。
+在主会话中搜索该行业所有上市公司，不启动后台 Agent。保持完整扫描目标。
 
 ### 搜索清单
 - 美股（NYSE/NASDAQ/NYSE American）相关公司
@@ -258,13 +258,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```

@@ -40,13 +40,13 @@
 
 ### 第二步：获取最新数据
 
-使用 Task 工具启动后台 Agent，通过 WebSearch 为每个持仓并行获取：
+在主会话中按持仓顺序获取以下数据，不启动后台 Agent。使用 WebSearch：
 1. 当前股价和估值指标（PE、PB、股息率）
 2. 最近一个季度的关键财务变化
 3. 近期重大事件
 4. 分析师一致预期（前瞻PE、目标价）
 
-对每个持仓使用 `tools/financial_rigor.py verify-valuation` 校验估值数据。对每只持仓标注信息丰富度（A/B/C级），C级持仓的分析结论标注低置信度。
+对每个持仓使用 `${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation` 校验估值数据。对每只持仓标注信息丰富度（A/B/C级），C级持仓的分析结论标注低置信度。
 
 ### 第三步：单仓位体检
 
@@ -107,7 +107,7 @@
 | 2 | | | | | |
 | ... | | | | | |
 
-预期回报估算方法（使用 `tools/financial_rigor.py three-scenario` 计算）：
+预期回报估算方法（使用 `${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario` 计算）：
 - **简化公式**：预期年化 ≈ FCF Yield + 预期增速（主要方法）
 - **价值型验证**：安全边际回归 + 利润增速 + 股息率
 - **成长型验证**：利润增速 × 合理PE的变化

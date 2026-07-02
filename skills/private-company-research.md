@@ -788,7 +788,7 @@
 
 ### 第四步：按顺序完成6个角色研究
 
-不要启动后台 Agent。按任务1到任务6的顺序，在主会话中逐段完成研究；每完成一个角色，先将完整研究报告交给当前主会话的 team-lead，并作为本角色报告，再提取3-5条核心要点、更新进度，然后进入下一个角色。
+不要启动后台 Agent。按任务1到任务6的顺序，在主会话中逐段完成研究；每个角色的完整研究报告作为本角色报告，供 team-lead 汇总。
 
 每个角色的prompt模板：
 
@@ -841,8 +841,7 @@
 
 ### 第五步：跟踪进度
 
-- 向用户实时展示进度表（哪些角色已完成、当前正在研究哪个角色）
-- 每完成一份角色报告，更新进度并展示该报告的核心要点（3-5条）
+- 确认6份角色报告都已完成
 - 6份角色报告全部完成后，再进入交叉验证与信息拼图
 
 ### 第六步：交叉验证与信息拼图
@@ -1049,13 +1048,13 @@ Top 3 核心风险及应对策略
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```
@@ -1072,7 +1071,7 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict 
 4. **交叉验证**——关键数据至少2个来源交叉验证，来源冲突时都列出
 5. **信号一致性检验**——汇总阶段必须做跨维度的信号一致性检查
 6. **结论要明确**——不回避给出投资/观望/回避建议，但同时说明结论的置信度
-7. **进度透明**——每完成一个角色研究，实时向用户更新进度
+7. **耐心完成**——6个角色研究需要时间，全部完成后再汇总
 8. **中英文搜索**——未上市公司信息可能分布在中英文媒体，需要两种语言搜索
 9. **反偏见核心原则**——资料少≠公司不好，AI分析篇幅短≠投资确定性低。对于信息极度稀缺的公司，切换"第一性原理模式"聚焦核心问题，不追求报告形式完整
 10. **诚实留白**——报告中明确区分"有据分析"和"推测填充"，允许出现"此维度数据不足，无法给出有意义的结论"

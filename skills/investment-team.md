@@ -43,7 +43,7 @@
 
 ### 第三步：定义4个任务
 
-保留以下4个任务定义（每个都要有 subject、description、activeForm），逐个执行；每段保留完整分析块和3-5条核心要点，再进入下一个任务：
+保留以下4个任务定义（每个都要有 subject、description、activeForm），逐个执行：
 
 #### 任务1：商业模式分析
 - subject: `分析{公司名}商业模式、护城河与用户价值`
@@ -66,10 +66,10 @@
   5. 估值分析：PE/PS/PB/EV等，与历史及同业对比
   6. 安全边际评估：内在价值 vs 当前股价
   7. **金融严谨性验证（必须使用Bash调用工具，禁止心算）**：
-     - 市值验算：`python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap --price {价格} --shares {股本} --reported {报告市值} --currency {币种}`
-     - 估值验算：`python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation --price {价格} --eps {EPS} --bvps {每股净资产}`
-     - 关键数据交叉验证：`python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate --field {字段} --values '{JSON}' --unit {单位}`
-     - 三情景估值：`python3 ~/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario --price {价格} --eps {EPS} --shares {股本亿} --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}`
+     - 市值验算：`python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-market-cap --price {价格} --shares {股本} --reported {报告市值} --currency {币种}`
+     - 估值验算：`python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation --price {价格} --eps {EPS} --bvps {每股净资产}`
+     - 关键数据交叉验证：`python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py cross-validate --field {字段} --values '{JSON}' --unit {单位}`
+     - 三情景估值：`python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario --price {价格} --eps {EPS} --shares {股本亿} --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}`
      - 将工具输出结果直接嵌入报告中作为验证记录
 
 #### 任务3：行业与竞争分析
@@ -121,14 +121,12 @@
 - 报告末尾要有该维度的总体结论
 
 **完成后**：
-1. 将完整分析报告交给当前主会话的 team-lead，并作为本角色报告
-2. 提取3-5条核心要点，更新进度后进入下一个角色
+将完整分析报告作为本角色报告，供 team-lead 汇总。
 ```
 
 ### 第五步：跟踪进度
 
-- 向用户实时展示进度表（哪些角色已完成、哪些仍在研究中）
-- 每完成一段角色分析，更新进度并展示该报告的核心要点（3-5条）
+- 确认四段角色分析都已完成
 - 四段都完成后，再进入汇总，不提前下结论
 
 ### 第六步：阶段收束
@@ -184,13 +182,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire-...md 路径>
 ```
@@ -204,6 +202,6 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict 
 3. **数据准确性**——要求使用WebSearch搜索最新数据，关键数据交叉验证
 4. **结论要明确**——不回避给出买入/观望/回避建议和具体价格区间
 5. **所有分析必须有数据支撑**——附数据来源
-6. **进度要透明**——每完成一段角色分析，向用户展示核心要点
+6. **耐心完成**——四段角色分析需要时间，全部完成后再汇总
 7. **反偏见意识**——team-lead在汇总时必须评估：各角色的分析是否受限于资料充裕度？是否与市场共识过度趋同？最终报告需包含"信息丰富度评级"和"AI研究局限性声明"
 8. **信息稀缺时的诚实原则**——宁可在报告中留白标注"数据不足"，也不要用推测填满框架伪装确定性
