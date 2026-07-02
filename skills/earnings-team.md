@@ -425,16 +425,12 @@ reports/{公司名}/
 对最终文章执行抽检：
 
 ```bash
-# Step 1 — 提取抽检清单（15%随机抽样）
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report /tmp/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
+  --report /tmp/ai-berkshire/reports/{公司名}-earnings-{期间}.md
 
-# Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
-
-# Step 3 — 输出准出/打回判决
 python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report /tmp/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
+  --report /tmp/ai-berkshire/reports/{公司名}-earnings-{期间}.md
 ```
 
 **【准出】** 全部通过 → 可发布；**【打回】** 有不通过 → 修正后重审。
