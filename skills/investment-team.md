@@ -180,7 +180,7 @@
 
 ### 第九步：数据抽检（准出流程）
 
-交给 preview skill 前，先将完整最终报告正文保存为本地临时 `.md` 文件（本地临时稿）。`report_audit.py --report` 只接受本地文件路径，不要使用 preview/gist 导出的文件。
+交给 preview skill 前，先将完整最终报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`。`report_audit.py --report` 只接受这个本地路径；不要传 preview/gist 路径；抽检结束后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）

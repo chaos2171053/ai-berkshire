@@ -418,7 +418,7 @@
 
 ## 数据抽检（准出流程）
 
-对最终文章执行抽检。先将完整公众号文章正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md` 这样的本地临时 `.md` 文件（本地临时稿）；`report_audit.py --report` 只接受这个本地文件路径，不要使用 preview/gist 导出的文件。预览和抽检完成后可删除。
+对最终文章执行抽检。先将完整公众号文章正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`。`report_audit.py --report` 只接受这个本地路径；不要传 preview/gist 路径；抽检结束后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
