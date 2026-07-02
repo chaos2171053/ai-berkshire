@@ -254,7 +254,7 @@
 
 ## 数据抽检（准出流程）
 
-交给 preview skill 前，先将完整报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`。`report_audit.py --report` 只接受这个本地路径；不要传 preview/gist 路径；抽检结束后删除该文件。
+抽检前将完整报告正文保存到 `/tmp/ai-berkshire-{slug}-{YYYYMMDD-HHMMSS}.md`；`report_audit.py --report` 使用该路径。准出后将报告正文交给 preview skill；preview 完成后删除该文件。
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
@@ -269,5 +269,4 @@ python3 ~/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict 
   --report <本地临时报告文件路径>
 ```
 
-
-**【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审.
+**【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
