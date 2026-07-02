@@ -106,7 +106,7 @@
 
 ### 阶段 2：写作（按 01→08 顺序写，不跳）
 
-- 每篇写完先存到运行时草稿目录：`${AI_BERKSHIRE_RUN_DIR}/series/0X-XX.md`（默认可用 `/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}`）
+- 每篇写完先存到本次运行目录：`/tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/0X-XX.md`
 - 每篇准出后交给 preview skill，作为用户在飞书/Hermes 对话里的审核入口
 - 如用户提出修订意见，读取对应草稿并结合意见修改，再次 preview；如无反馈，可继续下一篇或后续阶段
 - 不写入 skill 仓库，不执行 git commit/push
@@ -123,7 +123,7 @@
 
 ```bash
 # 发布前必须本地 grep 一次（按 ai-berkshire 隐私规则）
-grep -r "linxuan\|/Users/\|<用户公司花名>" "${AI_BERKSHIRE_RUN_DIR}/series/" | head
+grep -r "linxuan\|/Users/\|<用户公司花名>" /tmp/ai-berkshire/{slug}/{YYYYMMDD-HHMMSS}/series/ | head
 ```
 
 确认无明显问题后，将正文交给 preview skill；如用户后续提出修改意见，再读取草稿继续修订。

@@ -73,7 +73,7 @@
 用数据说话，**关键指标必须通过工具精确计算**：
 
 ```bash
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation \
+python3 tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -149,7 +149,7 @@ python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation \
 
 追加检验（**必须通过工具精确计算，禁止心算**）：
 ```bash
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario \
+python3 tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {股本亿} \
   --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE} --currency {币种}
 ```
@@ -232,13 +232,13 @@ python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario \
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
+python3 tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
 ```

@@ -108,7 +108,7 @@
    - 关键数据至少两个来源交叉验证
 
    ```bash
-   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py cross-validate \
+   python3 tools/financial_rigor.py cross-validate \
      --metric "revenue" --values {值1} {值2} --sources "来源1" "来源2"
    ```
 
@@ -133,11 +133,11 @@
 5. **估值与安全边际更新**
 
    ```bash
-   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-market-cap \
+   python3 tools/financial_rigor.py verify-market-cap \
      --price {价格} --shares {股本} --reported {报告市值} --currency {币种}
-   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py verify-valuation \
+   python3 tools/financial_rigor.py verify-valuation \
      --price {价格} --eps {EPS} --bvps {每股净资产}
-   python3 ${AI_BERKSHIRE_HOME:-.}/tools/financial_rigor.py three-scenario \
+   python3 tools/financial_rigor.py three-scenario \
      --price {价格} --eps {EPS} --shares {股本亿} \
      --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}
    ```
@@ -422,13 +422,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py extract \
+python3 tools/report_audit.py extract \
   --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ${AI_BERKSHIRE_HOME:-.}/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <上一步保存的 /tmp/ai-berkshire/{slug}/...md 路径>
 ```
