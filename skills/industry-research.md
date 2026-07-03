@@ -1,5 +1,7 @@
 # 行业投资研究：产业链全景扫描 + 四大师个股分析框架
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 行业进行系统化产业链投资研究。
 
 ## 研究目标
@@ -248,7 +250,7 @@
 3. 产业链全景图用代码块的文本图表示
 4. 每个环节至少分析2-3家头部公司
 5. 全球公司扫描要尽可能完整（A股/港股/美股/国际）
-6. 最终将完整报告写入 `~/[行业名]产业链投资研究报告.md`
+6. 最终将完整报告写入 `reports/{行业名}-industry-{YYYYMMDD}.md`
 7. 结论要明确，给出具体的标的、仓位和价格区间建议
 8. 每个分析模块末尾有对应大师的"追问"
 
@@ -258,13 +260,13 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/ai-berkshire/tools/report_audit.py extract \
+python3 tools/report_audit.py extract \
   --report <报告文件路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <报告文件名>
 ```

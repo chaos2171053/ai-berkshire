@@ -1,5 +1,7 @@
 # 深度公司系列：8 篇长文拆一家公司
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 为 $ARGUMENTS 撰写一个 8 篇深度长文系列，发布在公众号/视频号等公开渠道。**核心 IP 不是"会写"，而是"会改"——99% 的财经文章在违反本 skill 的事实核查标准**。
 
 参考样本：`reports/腾讯/《看懂腾讯》/`
@@ -109,7 +111,7 @@
 - 每篇写完先存 `reports/{公司名}/《看懂{公司名}》/0X-XX.md`
 - 不立即推 GitHub——等用户审阅
 - 用户提修订意见后修改
-- 修订完才 git push
+- 修订完先创建分支并提交本次修改，向 `chaos2171053/ai-berkshire:main` 创建 PR，再生成 Hermes preview 链接
 
 ### 阶段 3：跨篇一致性扫描（08 篇全部写完后）
 
@@ -122,11 +124,11 @@
 ### 阶段 4：发布前最终核查
 
 ```bash
-# 推送前必须本地 grep 一次（按 ai-berkshire 隐私规则）
+# 创建 PR 前必须本地 grep 一次（按 ai-berkshire 隐私规则）
 grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 ```
 
-确认无误后才 `git pull --rebase && git commit && git push`。
+确认无误后，创建分支并提交本次修改，向 `chaos2171053/ai-berkshire:main` 创建 PR；不要直接推送 `main`。
 
 ---
 
@@ -157,10 +159,11 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 - 改了持股 % → 改 TOP 10 排序 + 历史持股表 + 减持清单
 - 改了术语口径 → 改首次定义 + 后续引用 + 要点回顾
 
-### 4. 推送后立即报告
+### 4. 创建 PR 后立即报告
 
 ```
-推送成功（commit hash）。
+PR 创建成功（PR 链接）。
+Hermes preview 链接。
 [N] 处修订总结 [带表]：
 - 改了什么
 - 联动改了什么
@@ -185,7 +188,7 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 
 - 所有公开报告**只用公开信息**（财报、官方披露、券商研报、知名第三方机构）
 - 不用任何**用户个人信息**（公司花名、内部 IM、未公开持仓信息）
-- 推送前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
+- 创建 PR 前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
 - 公开署名按用户多层身份策略，不混用
 
 ---

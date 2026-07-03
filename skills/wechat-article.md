@@ -1,5 +1,7 @@
 # 微信公众号文章：作者-编辑-读者三Agent协作
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 进行深度研究，产出一篇可直接发布的微信公众号文章。三个Agent各司其职：作者写深度初稿，编辑精修结构和表达，读者从目标受众视角审读。
 
 **支持输入格式**：主题描述，例如：`大模型OPD技术解读`、`Qwen3技术报告解读`、`为什么巴菲特不买科技股`

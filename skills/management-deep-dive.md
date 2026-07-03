@@ -1,5 +1,7 @@
 # 管理层纵深研究：买股票就是买人
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 进行管理层深度研究。
 
 **支持输入格式**：`公司名` 或 `人名 公司名`，例如：`美团`、`王兴 美团`、`黄仁勋 英伟达`

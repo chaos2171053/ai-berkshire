@@ -1,5 +1,7 @@
 # 供应链瓶颈猎手：AI驱动的全球产业链瓶颈套利
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 超级趋势执行供应链瓶颈扫描与套利机会挖掘。
 
 ## 核心理念

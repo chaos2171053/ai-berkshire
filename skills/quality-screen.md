@@ -1,5 +1,7 @@
 # 去劣筛选：7条指标快速排除非一流公司
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 执行去劣指标筛选，快速排除不符合一流公司标准的标的。
 
 **支持输入格式**：

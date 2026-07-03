@@ -1,5 +1,7 @@
 # 财报精读团队：四大师并行解读 + 公众号发布
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 进行团队化财报精读分析。四位大师并行解读财报，编辑润色成文，读者评审把关质量，最终产出可直接发布的公众号文章。
 
 **支持输入格式**：`公司名 季度`，例如：`腾讯 最新`（推荐，自动匹配截至 `$CURRENT_DATE` 已披露的最近一期）、`PDD 2025年报`、`美团 2025Q4`
@@ -108,7 +110,7 @@
    - 关键数据至少两个来源交叉验证
 
    ```bash
-   python3 ~/ai-berkshire/tools/financial_rigor.py cross-validate \
+   python3 tools/financial_rigor.py cross-validate \
      --metric "revenue" --values {值1} {值2} --sources "来源1" "来源2"
    ```
 
@@ -133,11 +135,11 @@
 5. **估值与安全边际更新**
 
    ```bash
-   python3 ~/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+   python3 tools/financial_rigor.py verify-market-cap \
      --price {价格} --shares {股本} --reported {报告市值} --currency {币种}
-   python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
+   python3 tools/financial_rigor.py verify-valuation \
      --price {价格} --eps {EPS} --bvps {每股净资产}
-   python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
+   python3 tools/financial_rigor.py three-scenario \
      --price {价格} --eps {EPS} --shares {股本亿} \
      --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}
    ```
@@ -425,10 +427,10 @@ reports/{公司名}/
 对最终文章执行抽检：
 
 ```bash
-python3 ~/ai-berkshire/tools/report_audit.py extract \
+python3 tools/report_audit.py extract \
   --report reports/{公司名}/{公司名}-earnings-{期间}.md
 
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report {报告文件名}
 ```

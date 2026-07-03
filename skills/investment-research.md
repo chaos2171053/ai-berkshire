@@ -1,5 +1,7 @@
 # 投资研究：巴菲特-芒格-段永平-李录 四大师综合分析框架
 
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+
 对 $ARGUMENTS 进行系统化投资研究分析。
 
 ## 研究框架
@@ -75,20 +77,20 @@
 
 Step 1 — 市值验算（精确十进制，非浮点）：
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+python3 tools/financial_rigor.py verify-market-cap \
   --price {股价} --shares {总股本} --reported {报告市值} --currency {币种}
 ```
 
 Step 2 — 关键数据多源交叉验证：
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py cross-validate \
+python3 tools/financial_rigor.py cross-validate \
   --field {字段名} --values '{"来源1": 数值, "来源2": 数值}' --unit {单位}
 ```
 对收入、净利润、现金储备分别执行。
 
 Step 3 — 估值指标精确验算（PE/PB/ROE/FCF Yield 等）：
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
+python3 tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -197,7 +199,7 @@ python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
 - 反向DCF：当前股价隐含了什么增长预期？
 - 三情景估值 —— **必须通过工具精确计算，禁止心算**：
 ```bash
-python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
+python3 tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {总股本亿} \
   --growth {乐观增速} {中性增速} {悲观增速} \
   --pe {乐观PE} {中性PE} {悲观PE} --years 3 --currency {币种}
@@ -236,7 +238,7 @@ python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
 1. 所有分析必须有数据支撑，附数据来源
 2. 使用 Markdown 表格呈现关键数据
 3. 每个模块末尾必须有对应大师的"追问"
-4. 最终将完整报告写入 `~/[公司名]投资研究报告.md`
+4. 最终将完整报告写入 `reports/{公司名}/{公司名}-research-{YYYYMMDD}.md`，如果 `reports/{公司名}/` 目录不存在则创建
 5. 结论要明确，不回避给出买入/观望/回避的建议
 6. 估值部分必须给出具体的价格区间
 7. **报告开头**必须包含"信息丰富度评级"（A/B/C）和"AI研究局限性声明"
@@ -249,7 +251,7 @@ python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
-python3 ~/ai-berkshire/tools/report_audit.py extract \
+python3 tools/report_audit.py extract \
   --report <报告文件路径>
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
@@ -261,7 +263,7 @@ python3 ~/ai-berkshire/tools/report_audit.py extract \
 
 **Step 3 — 输出判决：**
 ```bash
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
   --report <报告文件名>
 ```
