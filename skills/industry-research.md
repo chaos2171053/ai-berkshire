@@ -1,10 +1,10 @@
 # 行业投资研究：产业链全景扫描 + 四大师个股分析框架
 
-> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+> Hermes/Pi 适配说明：本段只覆盖 Hermes 在树莓派上的安装运行方式，不改变上游 skill 的研究框架、角色分工、prompt、质量要求和报告结构。执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）；下文 `reports/...`、`tools/...`、`assets/...` 均按仓库根目录相对路径解析。
 >
-> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：优先保留独立 Agent/Task 语义，一个完成并回收后再启动下一个；如当前 Hermes surface 不支持对应 Team/Task 能力，再在本会话中按相同角色边界分段执行。
 >
-> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+> 产物处理：最终报告、可复查研究底稿、被正文引用的素材或图片写入 `reports/...` 或 `assets/...` 并随 PR 提交；纯 scratch 临时文件可用 `/tmp` 或本地临时目录，但不提交。产物写入后不要直接推送 `main`，为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
 
 对 $ARGUMENTS 行业进行系统化产业链投资研究。
 
