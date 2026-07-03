@@ -1,5 +1,11 @@
 # 供应链瓶颈猎手：AI驱动的全球产业链瓶颈套利
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 超级趋势执行供应链瓶颈扫描与套利机会挖掘。
 
 ## 核心理念
@@ -341,7 +347,7 @@ B级瓶颈（有压力）：
 
 ### 7.2 状态文件
 
-在 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/` 目录维护：
+在 `reports/bottleneck-map/` 目录维护：
 - `master-map.md` — 瓶颈总地图（持续更新）
 - `watchlist.md` — 观察名单（持续更新）
 - `YYYY-MM-DD/` — 每天一个文件夹，包含该天所有扫描报告
@@ -367,7 +373,7 @@ B级瓶颈（有压力）：
 
 ### 报告输出规则
 
-**每天一个文件夹**：`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/YYYY-MM-DD/`
+**每天一个文件夹**：`reports/bottleneck-map/YYYY-MM-DD/`
 
 **文件命名规则**（通过文件名一眼看出有没有标的）：
 
@@ -463,13 +469,12 @@ B级瓶颈（有压力）：
 ## 输出要求
 
 1. **报告位置**：
-   - 完整扫描：`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/{趋势名}-bottleneck-{YYYYMMDD}.md`
-   - 每日扫描：`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/daily/{YYYY-MM-DD}-{am/pm}.md`
-   - 瓶颈总地图：`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/master-map.md`
-   - 观察名单：`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/bottleneck-map/watchlist.md`
+   - 完整扫描：`reports/bottleneck-map/{趋势名}-bottleneck-{YYYYMMDD}.md`
+   - 每日扫描：`reports/bottleneck-map/daily/{YYYY-MM-DD}-{am/pm}.md`
+   - 瓶颈总地图：`reports/bottleneck-map/master-map.md`
+   - 观察名单：`reports/bottleneck-map/watchlist.md`
 2. **语言**：中文
 3. **风格**：直接、犀利、不说废话
 4. **数据**：所有数据标注来源；估计值标"估计"
 5. **不预设立场**：先摆数据 → 推逻辑 → 出结论
 6. **正反两面**：每个核心判断附反面论据
-7. **发布闭环**：写入或更新报告后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接

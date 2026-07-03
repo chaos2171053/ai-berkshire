@@ -1,5 +1,11 @@
 # 财报精读：一手资料深度解读
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 进行财报精读分析。
 
 **支持输入格式**：`公司名 季度`，例如：`腾讯 最新`（推荐，自动匹配截至 `$CURRENT_DATE` 已披露的最近一期）、`PDD 2025年报`、`美团 2025Q4`
@@ -31,7 +37,7 @@
 
 ### 第一步：获取一手资料
 
-在主会话中顺序获取以下原始材料，不启动后台 Agent：
+使用 Task 工具启动多个后台 Agent **并行**获取以下原始材料：
 
 1. **财报原文**：从公司IR页面、SEC EDGAR（美股10-K/10-Q）、港交所披露易（港股）、巨潮资讯网（A股）获取
 2. **业绩电话会纪要/录音**：从 Seeking Alpha、公司IR页面、雪球等获取
@@ -188,7 +194,7 @@ python3 tools/financial_rigor.py verify-valuation \
 
 ### 第七步：保存报告
 
-将报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md`，例如 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/腾讯/腾讯-earnings-2025Q4.md`。如果公司目录不存在则创建。
+将报告写入 `reports/{公司名}-earnings-{期间}.md`，例如 `reports/腾讯-earnings-2025Q4.md`
 
 ### 第八步：数据抽检（准出流程）
 
@@ -196,20 +202,18 @@ python3 tools/financial_rigor.py verify-valuation \
 
 ```bash
 # Step 1 — 提取抽检清单
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
+python3 tools/report_audit.py extract \
+  --report reports/{公司名}-earnings-{期间}.md
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
+  --report {报告文件名}
 ```
 
 **【准出】** 全部通过 → 发布；**【打回】** 有不通过 → 修正后重审。
-
-准出后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ## 关键原则
 

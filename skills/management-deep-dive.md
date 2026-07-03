@@ -1,5 +1,11 @@
 # 管理层纵深研究：买股票就是买人
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 进行管理层深度研究。
 
 **支持输入格式**：`公司名` 或 `人名 公司名`，例如：`美团`、`王兴 美团`、`黄仁勋 英伟达`
@@ -26,7 +32,7 @@ AI无法和管理层吃饭，但可以通过公开信息做到：
 
 ## 执行流程
 
-### 第一步：识别关键管理层并顺序收集数据
+### 第一步：识别关键管理层并启动并行数据收集
 
 使用 WebSearch 确认以下关键人物：
 
@@ -40,7 +46,7 @@ AI无法和管理层吃饭，但可以通过公开信息做到：
 
 **注意**：区分"谁在做决策"和"谁的名字在头衔上"。有些公司创始人虽然卸任但仍是灵魂人物（如黄峥之于拼多多）。
 
-确认关键人物后，在主会话中按以下主题顺序收集数据，不启动后台 Agent：
+确认关键人物后，使用 Task 工具启动多个后台 Agent **并行**收集以下数据：
 1. Agent 1：CEO公开发言与预测记录（股东信、电话会、采访、社交媒体）
 2. Agent 2：资本配置决策记录（并购、回购、分红、新业务投资）
 3. Agent 3：治理结构与薪酬（股权结构、关联交易、高管薪酬）
@@ -273,9 +279,7 @@ AI无法和管理层面对面交流，但可以通过公开渠道的侧面信息
 
 ### 第九步：保存报告
 
-将报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-management-{YYYYMMDD}.md`，例如 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/美团/美团-management-20260409.md`。如果公司目录不存在则创建。
-
-写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
+将报告写入 `reports/{公司名}-management-{YYYYMMDD}.md`，例如 `reports/美团-management-20260409.md`
 
 ---
 

@@ -1,5 +1,11 @@
 # 巴菲特价值投资买入前 Checklist
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 执行巴菲特价值投资买入前 Checklist 分析。
 
 **支持输入格式**：单个或多个公司，用逗号/顿号/空格分隔。例如：`腾讯, 茅台, 英伟达` 或 `NVDA AAPL MSFT`
@@ -30,9 +36,9 @@
 
 段永平说过："看不懂"有两种——一种是生意太复杂真的看不懂，一种是你还没花时间去看。AI研究的局限是容易把"资料少"和"看不懂"混为一谈。
 
-### 第二步：顺序数据收集
+### 第二步：并行数据收集
 
-按公司顺序在主会话中进行数据收集，不启动后台 Agent。每家公司负责收集：
+使用 Task 工具为**每家公司**启动独立的后台 Agent 进行数据收集（所有公司同时并行启动），每个Agent负责收集：
 
 1. **盈利能力**：ROE（5-10年趋势）、毛利率、净利率、自由现金流
 2. **估值数据**：当前股价、市值、PE(TTM)、前瞻PE、PB、股息率
@@ -73,7 +79,7 @@
 用数据说话，**关键指标必须通过工具精确计算**：
 
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
+python3 tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -149,7 +155,7 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigo
 
 追加检验（**必须通过工具精确计算，禁止心算**）：
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario \
+python3 tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {股本亿} \
   --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE} --currency {币种}
 ```
@@ -224,9 +230,7 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigo
 - ❓ **灰色地带** — 说明关键争议点是什么，投资者需要自行判断什么
 - N/A — 未上市/无法买入
 
-将完整报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/巴菲特Checklist-[公司名或"多公司对比"]-{YYYYMMDD}.md`
-
-写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
+将完整报告写入 `reports/巴菲特Checklist-[公司名或"多公司对比"]-{YYYYMMDD}.md`
 
 ## 输出格式要求
 

@@ -1,5 +1,11 @@
 # 投资研究：巴菲特-芒格-段永平-李录 四大师综合分析框架
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 进行系统化投资研究分析。
 
 ## 研究框架
@@ -47,7 +53,7 @@
 > - 港股：aastocks（主）+ macrotrends ADR（副）
 > - A股：东方财富（主）+ 巨潮资讯（副）
 
-在主会话中顺序从网络收集以下数据，不启动后台 Agent：
+使用 Task 工具启动后台 Agent，从网络收集以下数据：
 
 1. 收入结构：最近已披露财年及最近4个已披露季度的分部收入、增速、毛利率
 2. 财务指标：近5个已披露财年的收入、净利润、毛利率、经营利润率、自由现金流、现金储备
@@ -75,20 +81,20 @@
 
 Step 1 — 市值验算（精确十进制，非浮点）：
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+python3 tools/financial_rigor.py verify-market-cap \
   --price {股价} --shares {总股本} --reported {报告市值} --currency {币种}
 ```
 
 Step 2 — 关键数据多源交叉验证：
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
+python3 tools/financial_rigor.py cross-validate \
   --field {字段名} --values '{"来源1": 数值, "来源2": 数值}' --unit {单位}
 ```
 对收入、净利润、现金储备分别执行。
 
 Step 3 — 估值指标精确验算（PE/PB/ROE/FCF Yield 等）：
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
+python3 tools/financial_rigor.py verify-valuation \
   --price {股价} --eps {EPS} --bvps {每股净资产} --fcf-per-share {每股FCF} --dividend {每股股息}
 ```
 
@@ -197,7 +203,7 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigo
 - 反向DCF：当前股价隐含了什么增长预期？
 - 三情景估值 —— **必须通过工具精确计算，禁止心算**：
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario \
+python3 tools/financial_rigor.py three-scenario \
   --price {股价} --eps {EPS} --shares {总股本亿} \
   --growth {乐观增速} {中性增速} {悲观增速} \
   --pe {乐观PE} {中性PE} {悲观PE} --years 3 --currency {币种}
@@ -236,7 +242,7 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigo
 1. 所有分析必须有数据支撑，附数据来源
 2. 使用 Markdown 表格呈现关键数据
 3. 每个模块末尾必须有对应大师的"追问"
-4. 最终将完整报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{YYYYMMDD}.md`，如果公司目录不存在则创建
+4. 最终将完整报告写入 `reports/{公司名}/{公司名}-research-{YYYYMMDD}.md`，如果 `reports/{公司名}/` 目录不存在则创建
 5. 结论要明确，不回避给出买入/观望/回避的建议
 6. 估值部分必须给出具体的价格区间
 7. **报告开头**必须包含"信息丰富度评级"（A/B/C）和"AI研究局限性声明"
@@ -249,8 +255,8 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigo
 
 **Step 1 — 提取抽检清单（15%随机抽样）：**
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{YYYYMMDD}.md
+python3 tools/report_audit.py extract \
+  --report <报告文件路径>
 ```
 输出 JSON 模板，每项含 `fetched_value`（待填）。
 
@@ -261,12 +267,10 @@ python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.p
 
 **Step 3 — 输出判决：**
 ```bash
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{YYYYMMDD}.md
+  --report <报告文件名>
 ```
 
 - **【准出】**：所有抽检点偏差 ≤ 1% → 报告可发布
 - **【打回】**：任意点偏差 > 1% → 修正对应数据后重新抽检，直到准出
-
-写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。

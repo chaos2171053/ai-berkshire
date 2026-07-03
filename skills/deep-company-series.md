@@ -1,5 +1,11 @@
 # 深度公司系列：8 篇长文拆一家公司
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 为 $ARGUMENTS 撰写一个 8 篇深度长文系列，发布在公众号/视频号等公开渠道。**核心 IP 不是"会写"，而是"会改"——99% 的财经文章在违反本 skill 的事实核查标准**。
 
 参考样本：`reports/腾讯/《看懂腾讯》/`
@@ -106,14 +112,14 @@
 
 ### 阶段 2：写作（按 01→08 顺序写，不跳）
 
-- 每篇写完先存 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/《看懂{公司名}》/0X-XX.md`
+- 每篇写完先存 `reports/{公司名}/《看懂{公司名}》/0X-XX.md`
 - 不立即推 GitHub——等用户审阅
 - 用户提修订意见后修改
-- 修订完后创建报告 PR，不直接推送 main；随后将定稿正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接
+- 修订完先创建分支并提交本次修改，向 `chaos2171053/ai-berkshire:main` 创建 PR，再生成 Hermes preview 链接
 
 ### 阶段 3：跨篇一致性扫描（08 篇全部写完后）
 
-在主会话中按 01→08 顺序扫描 8 篇做以下检查，不启动后台 Agent：
+派 Explore agent 并行扫描 8 篇做以下检查：
 1. 同一数字（市值、净利润、持股比例）跨篇是否一致
 2. 同一术语（FBS、SBC、Non-IFRS）首次出现是否解释
 3. 引用关系：02 篇说"详见 06 篇"是否真的对应
@@ -122,11 +128,11 @@
 ### 阶段 4：发布前最终核查
 
 ```bash
-# 推送前必须本地 grep 一次（按 ai-berkshire 隐私规则）
+# 创建 PR 前必须本地 grep 一次（按 ai-berkshire 隐私规则）
 grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 ```
 
-确认无误后才 `git pull --rebase && git commit && git push`。
+确认无误后，创建分支并提交本次修改，向 `chaos2171053/ai-berkshire:main` 创建 PR；不要直接推送 `main`。
 
 ---
 
@@ -157,10 +163,11 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 - 改了持股 % → 改 TOP 10 排序 + 历史持股表 + 减持清单
 - 改了术语口径 → 改首次定义 + 后续引用 + 要点回顾
 
-### 4. 推送后立即报告
+### 4. 创建 PR 后立即报告
 
 ```
-推送成功（commit hash）。
+PR 创建成功（PR 链接）。
+Hermes preview 链接。
 [N] 处修订总结 [带表]：
 - 改了什么
 - 联动改了什么
@@ -185,7 +192,7 @@ grep -r "linxuan\|/Users/\|<用户公司花名>" reports/ | head
 
 - 所有公开报告**只用公开信息**（财报、官方披露、券商研报、知名第三方机构）
 - 不用任何**用户个人信息**（公司花名、内部 IM、未公开持仓信息）
-- 推送前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
+- 创建 PR 前必须用 grep 扫描 `linxuan` / `/Users/` / 用户公司花名 等隐私字段（参见 `~/.claude/projects/-Users-linxuan/memory/feedback_privacy_upload.md`）
 - 公开署名按用户多层身份策略，不混用
 
 ---

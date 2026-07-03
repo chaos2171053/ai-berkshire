@@ -1,5 +1,11 @@
 # 行业投资研究：产业链全景扫描 + 四大师个股分析框架
 
+> Hermes 树莓派执行约束：执行前先进入 ai-berkshire 仓库根目录（Hermes 部署路径为 `~/work/hermes-agent/packages/ai-berkshire`）。下文所有 `reports/...`、`tools/...`、`assets/...` 路径均按仓库根目录相对路径解析。
+>
+> 受树莓派内存限制，下文凡是要求并行、后台、同一条消息启动多个 Agent/Task 的步骤，在 Hermes 中均按原列出顺序串行执行：一个 Agent/Task 完成并回收后，再启动下一个。保留原 Agent/Team/Task 的角色、prompt、汇报方式和质量要求。
+>
+> 报告或素材写入后，不直接推送 `main`。为本次产物创建分支，只提交本次新增或修改的文件，向 `chaos2171053/ai-berkshire:main` 创建 PR；随后将最终正文交给 Hermes preview，并向用户返回 PR 链接和 preview 链接。不要把内部思考、临时计划或推理过程写入产物文件。
+
 对 $ARGUMENTS 行业进行系统化产业链投资研究。
 
 ## 研究目标
@@ -85,7 +91,7 @@
 
 ## 第三步：全球上市公司扫描
 
-在主会话中顺序搜索该行业所有上市公司，不启动后台 Agent。
+使用 Task 工具启动后台 Agent，全面搜索该行业所有上市公司。
 
 ### 搜索清单
 - 美股（NYSE/NASDAQ/NYSE American）相关公司
@@ -248,7 +254,7 @@
 3. 产业链全景图用代码块的文本图表示
 4. 每个环节至少分析2-3家头部公司
 5. 全球公司扫描要尽可能完整（A股/港股/美股/国际）
-6. 最终将完整报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{行业名}-industry-{YYYYMMDD}.md`
+6. 最终将完整报告写入 `reports/{行业名}-industry-{YYYYMMDD}.md`
 7. 结论要明确，给出具体的标的、仓位和价格区间建议
 8. 每个分析模块末尾有对应大师的"追问"
 
@@ -258,17 +264,15 @@
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{行业名}-industry-{YYYYMMDD}.md
+python3 tools/report_audit.py extract \
+  --report <报告文件路径>
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
+python3 tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{行业名}-industry-{YYYYMMDD}.md
+  --report <报告文件名>
 ```
 
 **【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
-
-写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
