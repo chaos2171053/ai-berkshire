@@ -1,6 +1,6 @@
-# 财报精读团队：四大师并行解读 + 公众号发布
+# 财报精读团队：四大师顺序解读 + 公众号发布
 
-对 $ARGUMENTS 进行团队化财报精读分析。四位大师并行解读财报，编辑润色成文，读者评审把关质量，最终产出可直接发布的公众号文章。
+对 $ARGUMENTS 进行团队化财报精读分析。四位大师顺序解读财报，编辑润色成文，读者评审把关质量，最终产出可直接发布的公众号文章。
 
 **支持输入格式**：`公司名 季度`，例如：`腾讯 最新`（推荐，自动匹配截至 `$CURRENT_DATE` 已披露的最近一期）、`PDD 2025年报`、`美团 2025Q4`
 
@@ -11,17 +11,17 @@
 2. **读者能看懂价值**——需要编辑润色和读者视角的质量把关
 
 本 Skill 的流程分三阶段：
-- **阶段一·研究**：四大师并行精读财报（段永平看生意本质、巴菲特审财务质量、芒格读竞争变化、李录猎风险信号）
+- **阶段一·研究**：四大师顺序精读财报（段永平看生意本质、巴菲特审财务质量、芒格读竞争变化、李录猎风险信号）
 - **阶段二·合成**：Team Lead 综合四个视角，产出研究报告初稿
-- **阶段三·发布**：编辑 Agent 改写为公众号文章 + 读者评审 Agent 提出修改意见 → Team Lead 定稿
+- **阶段三·发布**：编辑改写为公众号文章 + 读者评审提出修改意见 → Team Lead 定稿
 
 ---
 
-## 阶段一：四大师并行研究
+## 阶段一：四大师顺序研究
 
 ### 第一步：获取一手资料
 
-使用 Agent 工具启动后台 Agent **并行**获取以下原始材料：
+在主会话中顺序获取以下原始材料，不启动后台 Agent：
 
 | 资料类型 | 获取来源 | 优先级 |
 |---------|---------|--------|
@@ -38,7 +38,7 @@
 | B级 | 仅获取到部分原文或第三方汇总 | 标注"非原始来源"，降低附注分析权重 |
 | C级 | 仅有新闻报道和数据网站摘要 | 聚焦核心数据变化，跳过附注挖掘，标注"一手资料不足" |
 
-将资料可得性评级告知每个 Agent，影响其分析深度。
+将资料可得性评级带入每个视角，影响其分析深度。
 
 ### 第二步：向用户展示团队框架
 
@@ -52,13 +52,13 @@
 | 发布 | 编辑 | 公众号写作 | 把研究报告改写成好文章 |
 | 发布 | 读者评审 | 普通投资者 | 读者能看懂吗？有收获吗？ |
 
-### 第三步：启动4个并行研究Agent
+### 第三步：按顺序完成4个研究视角
 
-使用 Agent 工具在**同一条消息**中启动4个后台 Agent。
+不要启动后台 Agent。按段永平 → 巴菲特 → 芒格 → 李录的顺序逐段完成。
 
 ---
 
-#### Agent 1：生意本质解读（段永平视角）
+#### 分析1：生意本质解读（段永平视角）
 
 **核心问题：这份财报反映的生意本质，变好了还是变差了？**
 
@@ -94,7 +94,7 @@
 
 ---
 
-#### Agent 2：财务质量审计（巴菲特视角）
+#### 分析2：财务质量审计（巴菲特视角）
 
 **核心问题：这家公司赚的是真钱还是假钱？安全边际变了吗？**
 
@@ -108,7 +108,7 @@
    - 关键数据至少两个来源交叉验证
 
    ```bash
-   python3 ~/ai-berkshire/tools/financial_rigor.py cross-validate \
+   python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate \
      --metric "revenue" --values {值1} {值2} --sources "来源1" "来源2"
    ```
 
@@ -133,11 +133,11 @@
 5. **估值与安全边际更新**
 
    ```bash
-   python3 ~/ai-berkshire/tools/financial_rigor.py verify-market-cap \
+   python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap \
      --price {价格} --shares {股本} --reported {报告市值} --currency {币种}
-   python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation \
+   python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation \
      --price {价格} --eps {EPS} --bvps {每股净资产}
-   python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario \
+   python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario \
      --price {价格} --eps {EPS} --shares {股本亿} \
      --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}
    ```
@@ -146,7 +146,7 @@
 
 ---
 
-#### Agent 3：竞争格局解读（芒格视角）
+#### 分析3：竞争格局解读（芒格视角）
 
 **核心问题：这份财报揭示了竞争格局的什么变化？**
 
@@ -183,7 +183,7 @@
 
 ---
 
-#### Agent 4：风险信号猎手（李录视角）
+#### 分析4：风险信号猎手（李录视角）
 
 **核心问题：管理层在这份财报里隐瞒了什么？哪些信号在闪烁？**
 
@@ -233,13 +233,13 @@
 阶段三·发布            ⏸ 等待中
 ```
 
-每收到一份报告，更新进度并展示核心发现（3-5条）。
+每完成一个视角，更新进度并展示核心发现（3-5条）。四个视角全部完成后，再进入合成。
 
 ---
 
 ## 阶段二：Team Lead 合成研究报告
 
-全部4份研究报告到齐后，Team Lead 综合产出研究报告初稿。
+全部4个视角完成后，Team Lead 综合产出研究报告初稿。
 
 **合成要点**——不是拼报告，是找交叉和矛盾：
 
@@ -251,7 +251,7 @@
 
 ```markdown
 # {公司名} {期间} 财报精读报告
-**四大师并行解读 | {日期}**
+**四大师顺序解读 | {日期}**
 
 ## 一、一句话结论
 > 50-100字：超/符/低预期，核心变化，对投资论文的影响。
@@ -286,9 +286,9 @@
 
 ## 阶段三：编辑润色 + 读者评审
 
-研究报告完成后，**并行**启动两个 Agent：
+研究报告完成后，按顺序执行编辑润色和读者评审：
 
-### Agent 5：编辑（公众号文章改写）
+### 编辑（公众号文章改写）
 
 **定位**：把硬核研究报告改写成公众号读者爱看、能看懂的文章。
 
@@ -341,7 +341,7 @@
 
 ---
 
-### Agent 6：读者评审（普通投资者视角）
+### 读者评审（普通投资者视角）
 
 **定位**：以一个"关注价值投资、有基础财务知识、持有/关注该公司"的普通投资者身份审读文章。
 
@@ -410,7 +410,7 @@
 ## 输出文件
 
 ```
-reports/{公司名}/
+/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/
 ├── {公司名}-earnings-{期间}.md           ← 最终公众号文章（定稿）
 ├── {公司名}-earnings-{期间}-研究底稿.md   ← 四大师合成研究报告（自用）
 ├── {公司名}-earnings-{期间}-段永平.md     ← 生意本质解读
@@ -425,22 +425,24 @@ reports/{公司名}/
 对最终文章执行抽检：
 
 ```bash
-python3 ~/ai-berkshire/tools/report_audit.py extract \
-  --report reports/{公司名}/{公司名}-earnings-{期间}.md
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
 
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report {报告文件名}
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
 ```
 
 **【准出】** 全部通过 → 可发布；**【打回】** 有不通过 → 修正后重审。
+
+准出后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将最终公众号文章交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ## 与现有 Skill 的关系
 
 | Skill | 定位 | 何时用 |
 |-------|------|--------|
-| `/earnings-review` | 单Agent财报精读 | 快速过一遍，只需一个视角 |
-| **`/earnings-team`（本Skill）** | **六Agent团队精读 + 公众号发布** | **重要公司的关键财报，需要深度+发布** |
+| `/earnings-review` | 单视角财报精读 | 快速过一遍，只需一个视角 |
+| **`/earnings-team`（本Skill）** | **六角色团队精读 + 公众号发布** | **重要公司的关键财报，需要深度+发布** |
 | `/investment-team` | 四Agent全面公司研究 | 首次研究一家公司 |
 
 ## 关键原则

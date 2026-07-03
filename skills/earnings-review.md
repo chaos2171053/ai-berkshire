@@ -31,7 +31,7 @@
 
 ### 第一步：获取一手资料
 
-使用 Task 工具启动多个后台 Agent **并行**获取以下原始材料：
+在主会话中顺序获取以下原始材料，不启动后台 Agent：
 
 1. **财报原文**：从公司IR页面、SEC EDGAR（美股10-K/10-Q）、港交所披露易（港股）、巨潮资讯网（A股）获取
 2. **业绩电话会纪要/录音**：从 Seeking Alpha、公司IR页面、雪球等获取
@@ -188,7 +188,7 @@ python3 tools/financial_rigor.py verify-valuation \
 
 ### 第七步：保存报告
 
-将报告写入 `reports/{公司名}-earnings-{期间}.md`，例如 `reports/腾讯-earnings-2025Q4.md`
+将报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md`，例如 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/腾讯/腾讯-earnings-2025Q4.md`。如果公司目录不存在则创建。
 
 ### 第八步：数据抽检（准出流程）
 
@@ -196,18 +196,20 @@ python3 tools/financial_rigor.py verify-valuation \
 
 ```bash
 # Step 1 — 提取抽检清单
-python3 ~/ai-berkshire/tools/report_audit.py extract \
-  --report reports/{公司名}-earnings-{期间}.md
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report {报告文件名}
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-earnings-{期间}.md
 ```
 
 **【准出】** 全部通过 → 发布；**【打回】** 有不通过 → 修正后重审。
+
+准出后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ## 关键原则
 

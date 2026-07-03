@@ -5,7 +5,7 @@
 **支持输入格式**：
 - 持仓清单，例如：`腾讯30%, 美团20%, 茅台20%, 英伟达15%, 现金15%`
 - 或：`腾讯 500股 @480港元, 美团 1000股 @130港元, ...`
-- 或：`我的持仓`（如果已有保存的组合文件 `reports/portfolio-latest.md`）
+- 或：`我的持仓`（如果已有保存的组合文件 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/portfolio-latest.md`）
 
 > "分散投资是对无知的保护。如果你知道自己在做什么，分散投资就没有意义。" —— 巴菲特
 >
@@ -36,11 +36,11 @@
 
 如果输入只有比例没有金额，按比例分析即可。
 
-同时检查是否存在已有的组合文件（`reports/portfolio-latest.md`），如有则读取并更新。
+同时检查是否存在已有的组合文件（`/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/portfolio-latest.md`），如有则读取并更新。
 
 ### 第二步：获取最新数据
 
-使用 Task 工具启动后台 Agent，通过 WebSearch 为每个持仓并行获取：
+在主会话中按持仓顺序获取以下信息，不启动后台 Agent：
 1. 当前股价和估值指标（PE、PB、股息率）
 2. 最近一个季度的关键财务变化
 3. 近期重大事件
@@ -177,11 +177,13 @@
 
 ### 第七步：保存组合文件
 
-将组合信息写入 `reports/portfolio-latest.md`，包含：
+将组合信息写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/portfolio-latest.md`，包含：
 - 最新持仓表
 - 本次审视日期和结论
 - 调仓记录（追加）
 - 下次审视提醒
+
+写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ---
 

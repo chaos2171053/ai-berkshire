@@ -1,9 +1,9 @@
 ---
 name: news-pulse
-description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 Agent 侦察公司事件/监管政策/行业对手/市场情绪，产出"事件时间线 + 异动主因判断 + 是否触发论文重审"。
+description: 公司新闻脉搏：股价异动时快速归因。顺序侦察公司事件/监管政策/行业对手/市场情绪，产出"事件时间线 + 异动主因判断 + 是否触发论文重审"。
 ---
 
-# 公司新闻脉搏：股价异动快速归因团队
+# 公司新闻脉搏：股价异动快速归因
 
 对 $ARGUMENTS 进行最近新闻侦察与异动归因。**这不是深度投研，是情报快速响应**——目标是 10 分钟内回答："这家公司最近发生了什么？股价异动的真因是什么？要不要重审投资论文？"
 
@@ -37,21 +37,19 @@ description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 
 
 | 等级 | 特征 | 侦察策略 |
 |------|------|---------|
-| **A 级（信息充裕）** | 大盘股、媒体覆盖广、财报季 | 重点是**降噪和归因**——信息太多反而难找真因，每个 Agent 要有判断力，过滤掉"重复转述"的二手新闻 |
+| **A 级（信息充裕）** | 大盘股、媒体覆盖广、财报季 | 重点是**降噪和归因**——信息太多反而难找真因，每个维度都要有判断力，过滤掉"重复转述"的二手新闻 |
 | **B 级（信息适中）** | 中小盘、覆盖一般 | 标准模式，每条关键事件附 1-2 个独立信源 |
 | **C 级（信息稀缺）** | 港股小票、新上市、冷门 | 转入"扫盲模式"——可能找不到任何能解释异动的新闻，**这个结论本身就有价值**（可能是技术性/资金面而非基本面） |
 
-将评级告知每个 Agent，影响其侦察方式。
+将评级带入每个侦察维度，影响其侦察方式。
 
-### 第三步：创建团队
+### 第三步：准备顺序侦察清单
 
-使用 TeamCreate 创建团队：
-- `team_name`: `{公司名}-newspulse`（英文小写，如 `pdd-newspulse`）
-- `agent_type`: `team-lead`
+不使用 TeamCreate，不创建后台团队。你在主会话中按四个维度顺序侦察：公司事件 → 监管政策 → 行业竞争 → 市场情绪。
 
-### 第四步：创建 4 个侦察任务
+### 第四步：4 个侦察任务定义
 
-使用 TaskCreate 创建以下 4 个任务：
+以下 4 个任务逐个执行：
 
 #### 任务 1：公司事件侦察（company-event-scout）
 
@@ -98,26 +96,20 @@ description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 
   1. **卖方评级变动**：高盛、摩根、中金等最近的评级/目标价调整
   2. **机构持仓变化**：13F 披露（美股）、港股通持仓、北上资金流向
   3. **做空数据**：做空比例、新发布的做空报告（如有）
-  4. **大 V 观点**：可调用 `python3 ~/ai-berkshire/tools/xueqiu_scraper.py` 抓段永平等大 V 最近相关发言
+  4. **大 V 观点**：可调用 `python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/xueqiu_scraper.py` 抓段永平等大 V 最近相关发言
      - 段永平 user_id: `1247347556`
-     - 命令示例：`python3 ~/ai-berkshire/tools/xueqiu_scraper.py --user-id 1247347556 --keywords {公司名},{股票代码} --output /tmp/dyp-{公司名}.md`
+     - 命令示例：`python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/xueqiu_scraper.py --user-id 1247347556 --keywords {公司名},{股票代码} --output /tmp/dyp-{公司名}.md`
      - 仅在该公司是段永平/李录关注标的时调用，否则跳过节省时间
   5. **传言与小作文**：媒体未证实的传言、社交媒体讨论热点（雪球/X/Reddit）
   6. **技术面信号**：是否触及关键支撑/阻力、是否有大宗交易、融资融券异常
   7. 关键判断：**是基本面驱动还是情绪/资金面驱动？**
 
-### 第五步：并行启动 4 个 Agent
+### 第五步：顺序执行 4 轮侦察
 
-**必须在同一条消息中并行调用 4 次 Task 工具**。每个 Agent 配置：
-- `subagent_type`: `general-purpose`
-- `run_in_background`: `true`
-- `team_name`: `{公司名}-newspulse`
-- `name`: 对应角色名（company-event-scout / regulatory-watcher / industry-peer-analyst / sentiment-tracker）
-
-每个 Agent 的 prompt 模板：
+不要启动后台 Agent。按 company-event-scout → regulatory-watcher → industry-peer-analyst → sentiment-tracker 的顺序在主会话中执行。每轮使用以下 prompt 模板：
 
 ```
-你是 {公司名} 新闻脉搏团队中的"{角色中文名}"，负责侦察 {侦察维度} 维度的最近 {N} 天事件。
+你正在执行 {公司名} 新闻脉搏的"{角色中文名}"维度侦察，负责侦察 {侦察维度} 维度的最近 {N} 天事件。
 
 时间窗口：{起始日期} ~ {今日日期}
 股价异动背景：{用户提供的异动信息，无则写"无特定异动，常规体检"}
@@ -143,19 +135,18 @@ description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 
 5. 严格区分"事实"与"推测"，遵循 CLAUDE.md 客观性原则
 
 **完成后**：
-1. 使用 TaskUpdate 将任务标记为 completed
-2. 通过 SendMessage 把完整侦察报告发送给 team-lead（type: "message", recipient: "team-lead"）
+将完整侦察报告和时间线作为本维度报告，供 team-lead 汇总。
 ```
 
 ### 第六步：实时跟踪进度
 
-- 每收到一份侦察报告，向用户展示该维度的 3 条核心发现
-- 等待全部 4 份到齐
-- 全部到齐后，通过 SendMessage 向 4 个 Agent 发送 shutdown_request
+- 每完成一轮侦察，向用户展示该维度的 3 条核心发现
+- 四轮都完成后，再进入综合归因
+- 不启动后台 Agent，因此无需 shutdown 或团队清理
 
 ### 第七步：team-lead 综合归因
 
-汇总 4 份侦察报告，输出**异动归因报告**（不是研究报告，重点是"判断"）：
+汇总 4 轮侦察报告，输出**异动归因报告**（不是研究报告，重点是"判断"）：
 
 ---
 
@@ -218,11 +209,11 @@ description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 
 
 ### 第八步：保存报告
 
-写入 `reports/{公司名}/{公司名}-news-{YYYYMMDD}.md`。如果 `reports/{公司名}/` 目录不存在则创建（说明该公司还没建过任何研究报告）。
+写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-news-{YYYYMMDD}.md`。如果 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/` 目录不存在则创建（说明该公司还没建过任何研究报告）。
 
-### 第九步：清理团队
+### 第九步：创建报告 PR 并预览
 
-使用 TeamDelete 清理团队资源。
+不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ## 关键原则
 

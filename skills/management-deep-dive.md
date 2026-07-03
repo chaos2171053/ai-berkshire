@@ -26,7 +26,7 @@ AI无法和管理层吃饭，但可以通过公开信息做到：
 
 ## 执行流程
 
-### 第一步：识别关键管理层并启动并行数据收集
+### 第一步：识别关键管理层并顺序收集数据
 
 使用 WebSearch 确认以下关键人物：
 
@@ -40,7 +40,7 @@ AI无法和管理层吃饭，但可以通过公开信息做到：
 
 **注意**：区分"谁在做决策"和"谁的名字在头衔上"。有些公司创始人虽然卸任但仍是灵魂人物（如黄峥之于拼多多）。
 
-确认关键人物后，使用 Task 工具启动多个后台 Agent **并行**收集以下数据：
+确认关键人物后，在主会话中按以下主题顺序收集数据，不启动后台 Agent：
 1. Agent 1：CEO公开发言与预测记录（股东信、电话会、采访、社交媒体）
 2. Agent 2：资本配置决策记录（并购、回购、分红、新业务投资）
 3. Agent 3：治理结构与薪酬（股权结构、关联交易、高管薪酬）
@@ -273,7 +273,9 @@ AI无法和管理层面对面交流，但可以通过公开渠道的侧面信息
 
 ### 第九步：保存报告
 
-将报告写入 `reports/{公司名}-management-{YYYYMMDD}.md`，例如 `reports/美团-management-20260409.md`
+将报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-management-{YYYYMMDD}.md`，例如 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/美团/美团-management-20260409.md`。如果公司目录不存在则创建。
+
+写入后不要直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ---
 

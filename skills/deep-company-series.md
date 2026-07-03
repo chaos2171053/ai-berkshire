@@ -106,14 +106,14 @@
 
 ### 阶段 2：写作（按 01→08 顺序写，不跳）
 
-- 每篇写完先存 `reports/{公司名}/《看懂{公司名}》/0X-XX.md`
+- 每篇写完先存 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/《看懂{公司名}》/0X-XX.md`
 - 不立即推 GitHub——等用户审阅
 - 用户提修订意见后修改
-- 修订完才 git push
+- 修订完后创建报告 PR，不直接推送 main；随后将定稿正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接
 
 ### 阶段 3：跨篇一致性扫描（08 篇全部写完后）
 
-派 Explore agent 并行扫描 8 篇做以下检查：
+在主会话中按 01→08 顺序扫描 8 篇做以下检查，不启动后台 Agent：
 1. 同一数字（市值、净利润、持股比例）跨篇是否一致
 2. 同一术语（FBS、SBC、Non-IFRS）首次出现是否解释
 3. 引用关系：02 篇说"详见 06 篇"是否真的对应

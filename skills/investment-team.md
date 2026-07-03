@@ -1,6 +1,6 @@
-# 投研团队：四角色并行分析框架
+# 投研团队：四角色顺序分析框架
 
-对 $ARGUMENTS 进行团队化投资研究分析。使用 Team 工具创建真正的多Agent并行研究团队。
+对 $ARGUMENTS 进行团队化投资研究分析。保留四个角色的独立研究视角，但在主会话中顺序执行，避免在树莓派上同时启动多个后台 Agent。
 
 ## 执行流程
 
@@ -24,28 +24,26 @@
 | 等级 | 特征 | 研究策略调整 |
 |------|------|------------|
 | A级（信息充裕） | 上市多年、券商覆盖广 | 团队重点放在**反面检验**和**非共识视角**，避免输出与市场一致的"正确的废话" |
-| B级（信息适中） | 上市不久、覆盖有限 | 每个Agent的推算数据必须标注置信度，team-lead汇总时标注"数据充分度" |
+| B级（信息适中） | 上市不久、覆盖有限 | 每个角色的推算数据必须标注置信度，team-lead汇总时标注"数据充分度" |
 | C级（信息稀缺） | 冷门/新上市/新兴市场 | 团队转为"第一性原理模式"：不追求报告完整性，聚焦商业本质的几个核心问题 |
 
 **关键提醒**：资料多≠确定性高，资料少≠确定性低。AI能输出的置信度 ≠ 投资的真实确定性。确定性来自商业模式本身，不来自资料数量。
 
-将评级结果告知每个Agent，影响其研究方式。
+将评级结果带入每个角色，影响其研究方式。
 
 ### 日期锚定（强制执行）
 
-当前日期为 `$CURRENT_DATE`。**每个Agent的任务描述中必须包含以下指令**：
+当前日期为 `$CURRENT_DATE`。**每个角色的任务描述中必须包含以下指令**：
 
 > 研究日期：`$CURRENT_DATE`。所有数据必须是截至此日期的最新可得数据。"最近财年"=截至今日已披露的最近完整财年，"近5年"从最近完整财年往回推。搜索query中必须包含当前年份。股价/市值取最近交易日数据并标注日期。
 
-### 第二步：创建团队
+### 第二步：准备顺序执行
 
-使用 TeamCreate 创建团队：
-- team_name: `{公司名}-research`（英文小写，如 `meituan-research`）
-- agent_type: `team-lead`
+不使用 TeamCreate，不创建后台团队。你在主会话中担任 team-lead，按四个任务顺序执行并保留完整分析。
 
 ### 第三步：创建4个任务
 
-使用 TaskCreate 创建以下4个任务（每个都要有 subject、description、activeForm）：
+整理以下4个任务（每个都要保留 subject、description、activeForm）：
 
 #### 任务1：商业模式分析
 - subject: `分析{公司名}商业模式、护城河与用户价值`
@@ -68,10 +66,10 @@
   5. 估值分析：PE/PS/PB/EV等，与历史及同业对比
   6. 安全边际评估：内在价值 vs 当前股价
   7. **金融严谨性验证（必须使用Bash调用工具，禁止心算）**：
-     - 市值验算：`python3 ~/ai-berkshire/tools/financial_rigor.py verify-market-cap --price {价格} --shares {股本} --reported {报告市值} --currency {币种}`
-     - 估值验算：`python3 ~/ai-berkshire/tools/financial_rigor.py verify-valuation --price {价格} --eps {EPS} --bvps {每股净资产}`
-     - 关键数据交叉验证：`python3 ~/ai-berkshire/tools/financial_rigor.py cross-validate --field {字段} --values '{JSON}' --unit {单位}`
-     - 三情景估值：`python3 ~/ai-berkshire/tools/financial_rigor.py three-scenario --price {价格} --eps {EPS} --shares {股本亿} --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}`
+     - 市值验算：`python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-market-cap --price {价格} --shares {股本} --reported {报告市值} --currency {币种}`
+     - 估值验算：`python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py verify-valuation --price {价格} --eps {EPS} --bvps {每股净资产}`
+     - 关键数据交叉验证：`python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py cross-validate --field {字段} --values '{JSON}' --unit {单位}`
+     - 三情景估值：`python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/financial_rigor.py three-scenario --price {价格} --eps {EPS} --shares {股本亿} --growth {乐观} {中性} {悲观} --pe {乐观PE} {中性PE} {悲观PE}`
      - 将工具输出结果直接嵌入报告中作为验证记录
 
 #### 任务3：行业与竞争分析
@@ -97,17 +95,11 @@
   7. 长期确定性：10年后公司会怎样？什么可能颠覆其商业模式？
   8. 要求搜索最新监管动态、管理层言论等
 
-### 第四步：启动4个并行Agent
+### 第四步：按顺序执行4个角色
 
-使用 Task 工具同时启动4个Agent（**必须在同一条消息中并行调用**）：
+不要启动后台 Agent。按 business-analyst → financial-analyst → industry-researcher → risk-assessor 的顺序，在主会话中逐段完成。
 
-每个Agent的配置：
-- `subagent_type`: `general-purpose`
-- `run_in_background`: `true`
-- `team_name`: 对应团队名
-- `name`: 对应角色名（business-analyst / financial-analyst / industry-researcher / risk-assessor）
-
-每个Agent的prompt模板：
+每个角色使用以下 prompt 模板：
 
 ```
 你是{公司名}投研团队中的"{角色中文名}"，负责从{大师名}投资视角分析{公司名}。
@@ -129,23 +121,22 @@
 - 报告末尾要有该维度的总体结论
 
 **完成后**：
-1. 使用 TaskUpdate 将任务 #{任务编号} 标记为 completed
-2. 通过 SendMessage 把完整分析报告发送给 team-lead（type: "message", recipient: "team-lead"）
+将完整分析报告作为本角色报告，供 team-lead 汇总。
 ```
 
-### 第五步：接收报告并跟踪进度
+### 第五步：跟踪进度
 
-- 向用户实时展示进度表（哪些Agent已完成、哪些仍在研究中）
-- 每收到一份报告，更新进度并展示该报告的核心要点（3-5条）
-- 等待全部4份报告到齐
+- 向用户实时展示进度表（哪些角色已完成、哪些仍在研究中）
+- 每完成一个角色，更新进度并展示该报告的核心要点（3-5条）
+- 等待全部4份角色报告完成
 
-### 第六步：关闭团队成员
+### 第六步：阶段收束
 
-全部报告收到后，向4个Agent发送 shutdown_request（使用 SendMessage，type: "shutdown_request"）。
+检查四份角色报告是否都包含明确结论、关键数据来源和反面证据。缺项先补齐，再汇总。
 
 ### 第七步：汇总最终报告
 
-综合4份分析报告，输出以下结构的最终报告：
+综合4份角色报告，输出以下结构的最终报告：
 
 ---
 
@@ -184,36 +175,36 @@
 
 ### 第八步：保存报告
 
-将完整最终报告写入 `~/{公司名}投资研究报告_{日期}.md`（日期格式 YYYYMMDD）。
+将完整最终报告写入 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{日期}.md`（日期格式 YYYYMMDD）。如果 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/` 目录不存在则创建。
 
 ### 第九步：数据抽检（准出流程）
 
 ```bash
 # Step 1 — 提取抽检清单（15%随机抽样）
-python3 ~/ai-berkshire/tools/report_audit.py extract \
-  --report <报告文件路径>
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py extract \
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{日期}.md
 
 # Step 2 — 对清单每项从可靠信源取数（参见 skills/financial-data.md）
 
 # Step 3 — 输出准出/打回判决
-python3 ~/ai-berkshire/tools/report_audit.py verdict \
+python3 /home/chaos/work/hermes-agent/packages/ai-berkshire/tools/report_audit.py verdict \
   --results '<填好的JSON>' \
-  --report <报告文件名>
+  --report /home/chaos/work/hermes-agent/packages/ai-berkshire/reports/{公司名}/{公司名}-research-{日期}.md
 ```
 
 **【准出】** 全部通过 → 报告可发布；**【打回】** 有不通过 → 修正后重审。
 
-### 第十步：清理团队
+### 第十步：创建报告 PR 并预览
 
-使用 TeamDelete 清理团队资源。
+数据抽检通过后，不直接推送 main。为本次报告创建分支，提交 `/home/chaos/work/hermes-agent/packages/ai-berkshire/reports/...` 中新增或修改的最终报告文件，向 `chaos2171053/ai-berkshire:main` 创建 PR。随后将最终报告正文交给 Hermes preview，向用户返回 PR 链接和 preview 链接。
 
 ## 重要注意事项
 
-1. **4个Agent必须并行启动**——在同一条消息中调用4次Task工具
-2. **Agent通过SendMessage汇报**——不是文件协作，是消息通信
-3. **数据准确性**——要求Agent使用WebSearch搜索最新数据，关键数据交叉验证
+1. **4个角色必须顺序执行**——不启动后台 Agent，不并行拆分 LLM 会话
+2. **角色边界要清楚**——每段分析都保留对应大师视角，不要提前合并
+3. **数据准确性**——要求使用WebSearch搜索最新数据，关键数据交叉验证
 4. **结论要明确**——不回避给出买入/观望/回避建议和具体价格区间
 5. **所有分析必须有数据支撑**——附数据来源
-6. **耐心等待**——4个Agent研究需要几分钟，实时向用户更新进度
-7. **反偏见意识**——team-lead在汇总时必须评估：各Agent的分析是否受限于资料充裕度？是否与市场共识过度趋同？最终报告需包含"信息丰富度评级"和"AI研究局限性声明"
+6. **耐心完成**——4个角色研究需要时间，实时向用户更新进度
+7. **反偏见意识**——team-lead在汇总时必须评估：各角色的分析是否受限于资料充裕度？是否与市场共识过度趋同？最终报告需包含"信息丰富度评级"和"AI研究局限性声明"
 8. **信息稀缺时的诚实原则**——宁可在报告中留白标注"数据不足"，也不要用推测填满框架伪装确定性
