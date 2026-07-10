@@ -1,6 +1,6 @@
 # 未上市公司研究：多Agent并行深度研究框架
 
-> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/skills/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
 
 对 $ARGUMENTS 进行团队化深度研究分析。专为蚂蚁集团、小红书、SpaceX、Stripe 等未上市公司设计。
 

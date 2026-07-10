@@ -1,6 +1,6 @@
 # 行业漏斗筛选：从全市场到 3 家的价值投资精选流程
 
-> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/packages/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
+> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/skills/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
 
 对 $ARGUMENTS 行业/方向执行漏斗式价值投资筛选，从全市场扫描逐层精选到 3 家终选标的。
 
