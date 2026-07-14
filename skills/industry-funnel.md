@@ -1,7 +1,5 @@
 # 行业漏斗筛选：从全市场到 3 家的价值投资精选流程
 
-> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/skills/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
-
 对 $ARGUMENTS 行业/方向执行漏斗式价值投资筛选，从全市场扫描逐层精选到 3 家终选标的。
 
 ## 适用场景
@@ -11,8 +9,6 @@
 2. 用统一标准过滤掉"故事股"和质量不足的公司
 3. 把精力聚焦到真正值得深度研究的 3 家头部
 4. 每层有明确的留/弃标准，可复盘可追溯
-
-**日期锚定**：当前日期为 `$CURRENT_DATE`。筛选数据必须基于截至今日已披露的最新财年，搜索query中必须包含当前年份。
 
 与 `industry-research` 的区别：
 - `industry-research` 偏重产业链结构与全景，环节切片
