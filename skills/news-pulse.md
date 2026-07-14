@@ -3,13 +3,9 @@ name: news-pulse
 description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 Agent 侦察公司事件/监管政策/行业对手/市场情绪，产出"事件时间线 + 异动主因判断 + 是否触发论文重审"。
 ---
 
-> 执行本 skill 前，必须先读取并遵循 `~/work/hermes-agent/skills/ai-berkshire/skills/ai-berkshire-hermes-runtime.md`。若无法读取，停止执行当前 skill，并向用户报告原因。
-
 # 公司新闻脉搏：股价异动快速归因团队
 
 对 $ARGUMENTS 进行最近新闻侦察与异动归因。**这不是深度投研，是情报快速响应**——目标是 10 分钟内回答："这家公司最近发生了什么？股价异动的真因是什么？要不要重审投资论文？"
-
-**日期锚定**：当前日期为 `$CURRENT_DATE`。所有新闻搜索必须聚焦最近1-4周，query中带当前年月。
 
 ## 适用场景
 
@@ -102,7 +98,7 @@ description: 公司新闻脉搏：股价异动时快速归因。用 4 个并行 
   3. **做空数据**：做空比例、新发布的做空报告（如有）
   4. **大 V 观点**：可调用 `python3 tools/xueqiu_scraper.py` 抓段永平等大 V 最近相关发言
      - 段永平 user_id: `1247347556`
-     - 命令示例：`python3 tools/xueqiu_scraper.py --user-id 1247347556 --keywords {公司名},{股票代码} --output reports/{公司名}/dyp-{公司名}-{YYYYMMDD}.md`
+     - 命令示例：`python3 tools/xueqiu_scraper.py --user-id 1247347556 --keywords {公司名},{股票代码} --output /tmp/dyp-{公司名}.md`
      - 仅在该公司是段永平/李录关注标的时调用，否则跳过节省时间
   5. **传言与小作文**：媒体未证实的传言、社交媒体讨论热点（雪球/X/Reddit）
   6. **技术面信号**：是否触及关键支撑/阻力、是否有大宗交易、融资融券异常
